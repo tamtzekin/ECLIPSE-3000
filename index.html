@@ -895,6 +895,7 @@ function update(now) {
   }
 
   // Bar counter collision
+  const rk = `${currentRoom.x},${currentRoom.y}`;
   if (rk === BAR_ROOM) {
     for (let seg = -1; seg <= 1; seg++) {
       const bx = BAR_POS.x + seg * 0.9;
@@ -947,8 +948,7 @@ function update(now) {
   }
 
   // Bar proximity
-  const roomKey = `${currentRoom.x},${currentRoom.y}`;
-  nearBar = roomKey === BAR_ROOM && dist(player.x, player.y, BAR_POS.x, BAR_POS.y) < 2.0;
+  nearBar = rk === BAR_ROOM && dist(player.x, player.y, BAR_POS.x, BAR_POS.y) < 2.0;
   document.getElementById('bar-prompt').style.opacity = (nearBar && !barMenuOpen) ? '1' : '0';
 
   // Close bar menu if walked away
