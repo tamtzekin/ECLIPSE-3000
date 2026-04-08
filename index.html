@@ -8,98 +8,160 @@
 body { background: #0a0a0f; overflow: hidden; font-family: 'Courier New', monospace; }
 canvas { display: block; }
 
-#bars {
+/* ── STAMINA (top-left) ── */
+#stamina-ui {
   position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 16px;
+  top: 20px;
+  left: 20px;
   z-index: 10;
+  width: 220px;
 }
 
-.bar-container { width: 180px; }
-
-.bar-label {
-  color: #aaa;
-  font-size: 11px;
+#stamina-ui .bar-label {
+  color: #4ecdc4;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
+  letter-spacing: 3px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.bar-outer {
+#stamina-ui .bar-outer {
   width: 100%;
-  height: 14px;
+  height: 18px;
   background: #1a1a2e;
   border: 1px solid #333;
-  position: relative;
   overflow: hidden;
 }
 
-.bar-inner {
+#stamina-bar {
   height: 100%;
+  background: #4ecdc4;
   transition: width 0.15s ease;
 }
 
-#stamina-bar { background: #4ecdc4; }
-#thirst-bar { background: #ff6b6b; }
-
-.bar-outer.glow {
-  box-shadow: 0 0 8px rgba(78, 205, 196, 0.5), 0 0 16px rgba(78, 205, 196, 0.25);
+#stamina-ui.glow .bar-outer {
+  box-shadow: 0 0 10px rgba(78,205,196,0.5), 0 0 20px rgba(78,205,196,0.3);
   border-color: #4ecdc4;
 }
 
-#held-items {
+#stamina-msg {
+  color: #4ecdc4;
+  font-size: 10px;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  letter-spacing: 1px;
+}
+
+/* ── THIRST (top-right) ── */
+#thirst-ui {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  width: 220px;
+  text-align: right;
 }
 
-.held-item {
-  background: rgba(20, 20, 40, 0.9);
-  border: 1px solid #444;
-  padding: 8px 14px;
-  color: #ddd;
-  font-size: 12px;
+#thirst-ui .bar-label {
+  color: #ff6b6b;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#thirst-ui .bar-outer {
+  width: 100%;
+  height: 18px;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+#thirst-bar {
+  height: 100%;
+  background: #ff6b6b;
+  transition: width 0.15s ease;
+  float: right;
+}
+
+#thirst-msg {
+  color: #ff6b6b;
+  font-size: 10px;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  letter-spacing: 1px;
+}
+
+/* ── INVENTORY SLOTS (triangle) ── */
+#inventory {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  min-width: 180px;
-  animation: itemSlideIn 0.3s ease-out;
+  gap: 4px;
+}
+
+#inv-top { display: flex; justify-content: center; }
+#inv-bottom { display: flex; gap: 6px; }
+
+.inv-slot {
+  width: 60px;
+  height: 60px;
+  background: rgba(20, 20, 40, 0.85);
+  border: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   user-select: none;
   transition: border-color 0.15s, background 0.15s;
   position: relative;
 }
 
-.held-item:hover {
-  border-color: #ff6b6b;
-  background: rgba(40, 20, 20, 0.9);
+.inv-slot.empty {
+  cursor: default;
+  border-style: dashed;
+  border-color: #333;
 }
 
-.held-item:hover::after {
-  content: 'click to drop';
-  position: absolute;
-  right: -90px;
-  font-size: 9px;
-  color: #ff6b6b;
-  white-space: nowrap;
+.inv-slot:not(.empty):hover {
+  border-color: #4ecdc4;
+  background: rgba(30, 30, 55, 0.9);
 }
 
-@keyframes itemSlideIn {
-  from { transform: translateX(30px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.inv-slot .slot-icon { font-size: 22px; }
+.inv-slot .slot-label {
+  font-size: 7px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
 }
 
-.held-item .icon { font-size: 18px; width: 24px; text-align: center; }
-.held-item .desc { font-size: 10px; color: #888; }
+.inv-slot.unequipped {
+  opacity: 0.4;
+  border-style: dashed;
+}
 
-#room-indicator { position: fixed; top: 20px; left: 20px; z-index: 10; }
+.inv-slot.drink-slot:hover { border-color: #a855f7; }
+
+/* ── MINIMAP ── */
+#minimap-ui {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 10;
+}
 
 #minimap {
   display: grid;
@@ -112,6 +174,136 @@ canvas { display: block; }
 .minimap-cell.current { background: #4ecdc4; border-color: #4ecdc4; }
 .minimap-cell.visited { background: #2a2a4e; }
 
+#room-name {
+  color: #666;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ── DIALOGUE ── */
+#dialogue-box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: rgba(6, 6, 14, 0.96);
+  border-left: 1px solid #3a3a5a;
+  z-index: 25;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+  transform: translateX(20px);
+  font-family: 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+}
+
+#dialogue-box.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+#dialogue-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #2a2a4a;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+#dialogue-portrait {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: rgba(15,15,30,0.9);
+  flex-shrink: 0;
+}
+
+#dialogue-name {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+#dialogue-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a5a transparent;
+}
+
+#dialogue-scroll::-webkit-scrollbar { width: 4px; }
+#dialogue-scroll::-webkit-scrollbar-track { background: transparent; }
+#dialogue-scroll::-webkit-scrollbar-thumb { background: #3a3a5a; border-radius: 2px; }
+
+.dialogue-entry {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(60,60,90,0.3);
+}
+
+.dialogue-entry .de-speaker {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+
+.dialogue-entry .de-text {
+  color: #ccc;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.dialogue-entry.de-player .de-text {
+  color: #4ecdc4;
+  font-style: italic;
+}
+
+.dialogue-entry.de-player .de-speaker {
+  color: #4ecdc4;
+}
+
+#dialogue-choices {
+  padding: 8px 0;
+  border-top: 1px solid #2a2a4a;
+  flex-shrink: 0;
+}
+
+.dialogue-choice {
+  padding: 10px 20px;
+  color: #888;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  display: flex;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.dialogue-choice:hover {
+  background: rgba(78,205,196,0.08);
+  color: #4ecdc4;
+}
+
+.dialogue-choice .choice-num {
+  color: #4ecdc4;
+  min-width: 18px;
+  flex-shrink: 0;
+}
+
+/* ── PICKUP FLASH ── */
 #pickup-flash {
   position: fixed;
   top: 50%;
@@ -127,81 +319,7 @@ canvas { display: block; }
   text-shadow: 0 0 10px rgba(255,217,61,0.5);
 }
 
-#room-name {
-  position: fixed;
-  top: 55px;
-  left: 20px;
-  color: #666;
-  font-size: 11px;
-  letter-spacing: 1px;
-  z-index: 10;
-}
-
-#dialogue-box {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 20, 0.95);
-  border: 1px solid #555;
-  padding: 14px 20px;
-  color: #e8e8e8;
-  font-size: 13px;
-  z-index: 20;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-  max-width: 360px;
-  min-width: 240px;
-  letter-spacing: 0.3px;
-  line-height: 1.5;
-}
-
-#dialogue-box .npc-name {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 6px;
-}
-
-#dialogue-box .dialogue-text { color: #ccc; }
-
-#thirst-warning {
-  position: fixed;
-  bottom: 42px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-}
-
-#thirst-warning .icon { font-size: 16px; }
-#thirst-warning .text { color: #ff6b6b; font-size: 10px; letter-spacing: 1px; }
-
-#audio-prompt {
-  position: fixed;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 15;
-  background: rgba(20, 20, 40, 0.9);
-  border: 1px solid #444;
-  padding: 8px 18px;
-  color: #aaa;
-  font-size: 11px;
-  cursor: pointer;
-  letter-spacing: 1px;
-}
-
-#audio-prompt:hover { border-color: #4ecdc4; color: #4ecdc4; }
-
-#sc-player { display: none; }
-
+/* ── BAR MENU ── */
 #bar-menu {
   position: fixed;
   top: 50%;
@@ -209,44 +327,25 @@ canvas { display: block; }
   transform: translate(-50%, -50%);
   background: rgba(8, 8, 18, 0.97);
   border: 1px solid #555;
-  padding: 0;
   z-index: 30;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
-  min-width: 280px;
-  font-family: 'Courier New', monospace;
+  min-width: 300px;
 }
 
-#bar-menu.open {
-  opacity: 1;
-  pointer-events: auto;
-}
+#bar-menu.open { opacity: 1; pointer-events: auto; }
 
 #bar-menu .bar-header {
-  background: rgba(30, 20, 50, 0.9);
+  background: rgba(30,20,50,0.9);
   padding: 10px 16px;
   border-bottom: 1px solid #444;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-#bar-menu .bar-title {
-  color: #a855f7;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-}
-
-#bar-menu .bar-wallet {
-  color: #fbbf24;
-  font-size: 12px;
-}
-
-#bar-menu .bar-items {
-  padding: 8px 0;
-}
+#bar-menu .bar-title { color: #a855f7; font-size: 12px; text-transform: uppercase; letter-spacing: 3px; }
+#bar-menu .bar-wallet { color: #fbbf24; font-size: 12px; }
 
 .bar-item {
   padding: 8px 16px;
@@ -259,49 +358,22 @@ canvas { display: block; }
   font-size: 12px;
 }
 
-.bar-item:hover {
-  background: rgba(168, 85, 247, 0.15);
-}
-
-.bar-item.cant-afford {
-  color: #555;
-  cursor: default;
-}
-
-.bar-item .drink-name {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.bar-item .drink-effect {
-  font-size: 9px;
-  color: #888;
-}
-
-.bar-item .drink-price {
-  color: #fbbf24;
-  font-size: 11px;
-}
-
+.bar-item:hover { background: rgba(168,85,247,0.15); }
+.bar-item.cant-afford { color: #555; cursor: default; }
+.bar-item .drink-name { display: flex; align-items: center; gap: 8px; }
+.bar-item .drink-effect { font-size: 9px; color: #888; }
+.bar-item .drink-price { color: #fbbf24; font-size: 11px; }
 .bar-item.cant-afford .drink-price { color: #555; }
 
-#bar-menu .bar-close {
-  padding: 6px 16px;
-  text-align: center;
-  color: #666;
-  font-size: 10px;
-  border-top: 1px solid #333;
-  letter-spacing: 1px;
-}
+#bar-menu .bar-close { padding: 6px 16px; text-align: center; color: #666; font-size: 10px; border-top: 1px solid #333; letter-spacing: 1px; }
 
 #bar-prompt {
   position: fixed;
-  bottom: 60px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   color: #a855f7;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 1px;
   z-index: 10;
   opacity: 0;
@@ -309,538 +381,782 @@ canvas { display: block; }
   transition: opacity 0.2s;
 }
 
-#wallet-display {
+#coat-prompt {
   position: fixed;
-  top: 20px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
-  color: #fbbf24;
+  color: #e8a87c;
   font-size: 12px;
   letter-spacing: 1px;
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
 }
+
+#coat-menu {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8,8,18,0.97);
+  border: 1px solid #555;
+  z-index: 25;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  min-width: 260px;
+  font-family: 'Courier New', monospace;
+}
+#coat-menu.open { opacity: 1; pointer-events: auto; }
+
+#wallet-display {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: #fbbf24;
+  font-size: 13px;
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+#token-display {
+  position: fixed;
+  bottom: 38px;
+  right: 20px;
+  color: #ffd93d;
+  font-size: 13px;
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+#game-audio { display: none; }
 </style>
 </head>
 <body>
 
 <canvas id="game"></canvas>
 
-<div id="bars">
-  <div class="bar-container">
-    <div class="bar-label">Stamina</div>
-    <div class="bar-outer" id="stamina-outer"><div class="bar-inner" id="stamina-bar"></div></div>
-  </div>
-  <div class="bar-container">
-    <div class="bar-label">Thirst</div>
-    <div class="bar-outer"><div class="bar-inner" id="thirst-bar"></div></div>
-  </div>
+<!-- STAMINA top-left -->
+<div id="stamina-ui">
+  <div class="bar-label">Stamina</div>
+  <div class="bar-outer"><div id="stamina-bar"></div></div>
+  <div id="stamina-msg"></div>
 </div>
 
-<div id="held-items"></div>
+<!-- THIRST top-right -->
+<div id="thirst-ui">
+  <div class="bar-label">Thirst</div>
+  <div class="bar-outer"><div id="thirst-bar"></div></div>
+  <div id="thirst-msg"></div>
+</div>
 
-<div id="room-indicator"><div id="minimap"></div></div>
-<div id="room-name"></div>
-<div id="pickup-flash"></div>
-<div id="dialogue-box"><div class="npc-name"></div><div class="dialogue-text"></div></div>
+<!-- INVENTORY triangle -->
+<div id="inventory">
+  <div id="inv-top"></div>
+  <div id="inv-bottom"></div>
+</div>
+
+<!-- MINIMAP bottom-left -->
+<div id="minimap-ui">
+  <div id="minimap"></div>
+  <div id="room-name"></div>
+</div>
+
 <div id="wallet-display"></div>
+<div id="token-display"></div>
+<div id="pickup-flash"></div>
 <div id="bar-prompt">[E] ORDER AT BAR</div>
+
 <div id="bar-menu">
-  <div class="bar-header">
-    <span class="bar-title">BAR</span>
-    <span class="bar-wallet"></span>
-  </div>
+  <div class="bar-header"><span class="bar-title">BAR</span><span class="bar-wallet"></span></div>
   <div class="bar-items"></div>
   <div class="bar-close">ESC to close</div>
 </div>
-<div id="thirst-warning"><span class="icon">🚫💬</span><span class="text">TOO THIRSTY TO TALK</span></div>
 
-<iframe id="sc-player"
-  width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-  src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/parrenin-didier/essential-mix-19-02-2006-trance-energy-armin-van-buuren-and-judge-jules&auto_play=false&show_artwork=false">
-</iframe>
+<div id="coat-prompt">[E] COAT CHECK</div>
 
-<script src="https://w.soundcloud.com/player/api.js"></script>
+<div id="coat-menu">
+  <div class="bar-header"><span class="bar-title">COAT CHECK</span><span class="coat-tokens">🪙 0</span></div>
+  <div class="coat-items"></div>
+  <div class="bar-close">ESC to close</div>
+</div>
+
+<div id="dialogue-box">
+  <div id="dialogue-header">
+    <div id="dialogue-portrait"></div>
+    <div id="dialogue-name"></div>
+  </div>
+  <div id="dialogue-scroll"></div>
+  <div id="dialogue-choices"></div>
+</div>
+
+<audio id="game-audio" src="music.mp3" loop preload="auto"></audio>
 <script>
 // ── AUDIO ──
-let scWidget = null;
 let audioStarted = false;
-
 function startAudio() {
   if (audioStarted) return;
   audioStarted = true;
-  const iframe = document.getElementById('sc-player');
-  scWidget = SC.Widget(iframe);
-  scWidget.bind(SC.Widget.Events.READY, () => {
-    scWidget.seekTo(448000);
-    scWidget.play();
-    scWidget.setVolume(40);
-  });
+  const audio = document.getElementById('game-audio');
+  audio.volume = 0.4;
+  audio.play().catch(()=>{});
 }
+document.addEventListener('keydown', function a() { startAudio(); document.removeEventListener('keydown', a); }, { once: true });
+document.addEventListener('click', function a() { startAudio(); document.removeEventListener('click', a); }, { once: true });
 
-// Auto-start music on first user interaction (browser requires gesture)
-document.addEventListener('keydown', function autoPlay() {
-  startAudio();
-  document.removeEventListener('keydown', autoPlay);
-}, { once: true });
-document.addEventListener('click', function autoPlay() {
-  startAudio();
-  document.removeEventListener('click', autoPlay);
-}, { once: true });
-
-// ── CONFIG ──
-const TILE_W = 64;
-const TILE_H = 32;
-const ROOM_TILES = 11;
-
+// ── ENGINE ──
+const TILE_W = 64, TILE_H = 32, ROOM_TILES = 15;
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 let W, H;
+function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+addEventListener('resize', resize); resize();
 
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-window.addEventListener('resize', resize);
-resize();
-
-function toIso(x, y) { return { sx: (x - y) * (TILE_W / 2), sy: (x + y) * (TILE_H / 2) }; }
-function clamp(v, mn, mx) { return Math.max(mn, Math.min(mx, v)); }
-function dist(ax, ay, bx, by) { const dx = ax-bx, dy = ay-by; return Math.sqrt(dx*dx+dy*dy); }
+function toIso(x, y) { return { sx: (x-y)*(TILE_W/2), sy: (x+y)*(TILE_H/2) }; }
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function dist(ax,ay,bx,by) { return Math.hypot(ax-bx, ay-by); }
 
 // ── DUNGEON ──
-const DUNGEON_W = 2, DUNGEON_H = 2;
-let currentRoom = { x: 0, y: 0 };
+const DW = 2, DH = 2;
+let curRoom = { x:0, y:0 };
 let visited = new Set(['0,0']);
 const rooms = {};
 
 const DOOR = {
-  N: { tx: 5, ty: 0, dir: { x: 0, y: -1 }, enter: { tx: 5, ty: 9 } },
-  S: { tx: 5, ty: 10, dir: { x: 0, y: 1 }, enter: { tx: 5, ty: 1 } },
-  E: { tx: 10, ty: 5, dir: { x: 1, y: 0 }, enter: { tx: 1, ty: 5 } },
-  W: { tx: 0, ty: 5, dir: { x: -1, y: 0 }, enter: { tx: 9, ty: 5 } }
+  N: { tx:7,ty:0, dir:{x:0,y:-1}, enter:{tx:7,ty:13} },
+  S: { tx:7,ty:14, dir:{x:0,y:1}, enter:{tx:7,ty:1} },
+  E: { tx:14,ty:7, dir:{x:1,y:0}, enter:{tx:1,ty:7} },
+  W: { tx:0,ty:7, dir:{x:-1,y:0}, enter:{tx:13,ty:7} }
 };
 
 const ITEM_DEFS = [
-  { id: 'tablet', name: 'TABLET', icon: '💊', desc: '+Speed', color: '#4ecdc4',
-    effect: { speedMult: 1.6 } },
-  { id: 'drink', name: 'DRINK', icon: '🍸', desc: 'Reveal crowd / -Speed', color: '#a855f7',
-    effect: { speedMult: 0.7, revealNPCs: true } },
-  { id: 'sunglasses', name: 'SUNGLASSES', icon: '🕶️', desc: '+Stamina Regen / -Speed / Darker', color: '#fbbf24',
-    effect: { staminaRegen: 2.5, speedMult: 0.45, darken: true } },
+  { id:'tablet', name:'TABLET', icon:'💊', desc:'+Speed / Motion blur', color:'#4ecdc4', type:'consumable',
+    effect:{ speedMult:1.6, motionBlur:true }, duration: 15 },
+  { id:'drink', name:'DRINK', icon:'🍸', desc:'Reveal crowd / -Speed', color:'#a855f7', type:'held',
+    effect:{ speedMult:0.7, revealNPCs:true } },
+  { id:'sunglasses', name:'SUNGLASSES', icon:'🕶️', desc:'+Stamina Regen / -Speed / Darker', color:'#fbbf24', type:'held',
+    effect:{ staminaRegen:2.5, speedMult:0.7, darken:true } },
 ];
 
-const ITEM_PLACEMENTS = { '1,0': 'tablet', '0,1': 'drink', '1,1': 'sunglasses' };
+const ITEM_PLACEMENTS = { '1,0':'tablet', '0,1':'drink', '1,1':'sunglasses' };
 
-// ── BAR SYSTEM ──
+// ── BAR ──
 const DRINKS = [
-  { name: 'Water', icon: '💧', price: 1, effect: 'thirst', amount: 30, desc: '+30 Thirst' },
-  { name: 'Beer', icon: '🍺', price: 3, effect: 'thirst', amount: 50, desc: '+50 Thirst' },
-  { name: 'Espresso', icon: '☕', price: 4, effect: 'stamina', amount: 40, desc: '+40 Stamina' },
-  { name: 'Red Bull Vodka', icon: '⚡', price: 6, effect: 'both', amount: 25, desc: '+25 Both' },
-  { name: 'Champagne', icon: '🥂', price: 10, effect: 'thirst', amount: 100, desc: 'Full Thirst' },
+  { name:'Water', icon:'💧', price:1, stamina:0, thirst:30, desc:'+30 Thirst' },
+  { name:'Beer', icon:'🍺', price:3, stamina:-15, thirst:50, desc:'+50 Thirst / -15 Stamina' },
+  { name:'Espresso Martini', icon:'☕', price:5, stamina:40, thirst:10, desc:'+40 Stamina / +10 Thirst' },
+  { name:'Red Bull Vodka', icon:'⚡', price:6, stamina:35, thirst:35, desc:'+35 Both' },
+  { name:'Champagne', icon:'🥂', price:10, stamina:-20, thirst:80, desc:'+80 Thirst / -20 Stamina' },
 ];
 
-// Bar counter location: Lounge room (0,1), position near center-left
 const BAR_ROOM = '0,1';
-const BAR_POS = { x: 3.5, y: 5.5 };
-let barMenuOpen = false;
-let nearBar = false;
+const BAR_POS = { x:4.5, y:7.5 };
+let barMenuOpen = false, nearBar = false;
 
-// NPC names and dialogue lines
-const NPC_NAMES = [
-  'RAVER', 'BOUNCER', 'BARTENDER', 'DJ', 'REGULAR', 'STRANGER',
-  'PROMOTER', 'DANCER', 'LOST SOUL', 'WALLFLOWER', 'VIP', 'DEALER',
+// ── COAT CHECK ──
+const CLOTHING_DEFS = [
+  { id:'jacket', name:'JACKET', icon:'🧥', desc:'-Stamina drain', color:'#e8a87c', type:'held',
+    effect:{ staminaDrainMult:0.4 }, tokenNum:14 },
+  { id:'beret', name:'BERET', icon:'🎨', desc:'More NPCs talkable', color:'#d4a5a5', type:'held',
+    effect:{ charisma:true }, tokenNum:27 },
+  { id:'scarf', name:'SCARF', icon:'🧣', desc:'-Thirst drain', color:'#c4b7a6', type:'held',
+    effect:{ thirstDrainMult:0.4 }, tokenNum:42 },
+  { id:'hoodie', name:'HOODIE', icon:'🧤', desc:'+Speed', color:'#7a9cc6', type:'held',
+    effect:{ speedMult:1.3 }, tokenNum:31 },
+  { id:'cap', name:'CAP', icon:'🧢', desc:'Reveal hidden NPCs', color:'#6b8e5a', type:'held',
+    effect:{ revealNPCs:true }, tokenNum:53 },
+  { id:'chain', name:'CHAIN', icon:'⛓️', desc:'+Stamina regen', color:'#c0c0c0', type:'held',
+    effect:{ staminaRegen:2.0 }, tokenNum:67 },
 ];
+const COAT_CHECK_ROOM = '0,0';
+const COAT_CHECK_POS = { x:10.5, y:3.5 };
+let coatMenuOpen = false, nearCoatCheck = false;
 
-const NPC_LINES = [
-  "You look like you need water...",
-  "This DJ hasn't dropped the beat in twenty minutes.",
-  "I've been here since Thursday. What day is it?",
-  "Don't go to the back room. Trust me.",
-  "Have you seen my friend? Tall, wearing all black... like everyone else here.",
-  "The drinks here taste like regret.",
-  "I swear the walls are moving.",
-  "You feel that bass in your chest? That's not your heartbeat anymore.",
-  "Someone told me there's a secret room. Behind the speakers.",
-  "I can't find the exit. Can you?",
-  "The lights... they know things.",
-  "Keep moving. If you stop, you become one of them.",
-  "This used to be a church, you know.",
-  "I think the music is getting slower.",
-  "You look different from the rest. More... solid.",
-  "Buy me a drink and I'll tell you everything.",
-  "The bouncer at the VIP doesn't blink. Have you noticed?",
-  "I forgot why I came here.",
-  "Don't make eye contact with the shadows.",
-  "The coat check has been closed for three days.",
+// ── NPC DATA ──
+const NPC_NAMES = ['RAVER','BOUNCER','BARTENDER','BOGNA','SOFIA','MARTINE','ZOFIA','MERITXELL','JEREMIAH','T.','ELEGY'];
+
+// ── ARTICY DRAFT RUNTIME ──
+const ARTICY_PLAYER_ID = '0x0100000000010000';
+const ARTICY_NPC_ID = '0x0100000000010001';
+let articyDB = null; // loaded async
+
+class ArticyRuntime {
+  constructor(json) {
+    this.nodes = new Map();    // Id -> model properties
+    this.dialogues = [];       // top-level Dialogue container IDs
+    const models = json.Packages[0].Models;
+    for (const m of models) {
+      const p = m.Properties;
+      p._type = m.Type;
+      this.nodes.set(p.Id, p);
+      if (m.Type === 'Dialogue') this.dialogues.push(p.Id);
+    }
+  }
+  // Get the first DialogueFragment child of a Dialogue container
+  getEntryNode(dialogueId) {
+    const dlg = this.nodes.get(dialogueId);
+    if (!dlg || !dlg.OutputPins || !dlg.OutputPins[0]) return null;
+    const conn = dlg.OutputPins[0].Connections[0];
+    return conn ? this.nodes.get(conn.Target) : null;
+  }
+  // Get child choices/connections from a fragment's output pin
+  getOutputs(fragmentId) {
+    const frag = this.nodes.get(fragmentId);
+    if (!frag || !frag.OutputPins || !frag.OutputPins[0]) return [];
+    return frag.OutputPins[0].Connections.map(c => ({
+      targetId: c.Target,
+      target: this.nodes.get(c.Target)
+    })).filter(o => o.target);
+  }
+  // Check if a fragment is an NPC line (has Text) vs player choice (has MenuText)
+  isNPCLine(frag) { return frag.Speaker === ARTICY_NPC_ID || (frag.Text && !frag.MenuText); }
+  isPlayerChoice(frag) { return !!frag.MenuText; }
+  // Get a random dialogue ID
+  randomDialogueId(rng) {
+    return this.dialogues[Math.floor(rng() * this.dialogues.length)];
+  }
+}
+
+// Load Articy JSON
+fetch('dialogues.articy.json').then(r=>r.json()).then(json=>{
+  articyDB = new ArticyRuntime(json);
+  console.log(`Articy: loaded ${articyDB.nodes.size} nodes, ${articyDB.dialogues.length} dialogues`);
+}).catch(e=>console.error('Articy load failed:',e));
+
+const THIRSTY_LINES = [
+  "I need something to drink...",
+  "My mouth is so dry...",
+  "I can't talk right now... need something to drink...",
+  "Too parched to think...",
+  "Need... water...",
 ];
 
 function makeRng(seed) {
   let s = seed;
-  return () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+  return () => { s = (s*1103515245+12345)&0x7fffffff; return s/0x7fffffff; };
 }
 
 function generateRoom(rx, ry) {
   const key = `${rx},${ry}`;
   if (rooms[key]) return rooms[key];
-  const rand = makeRng(rx * 7 + ry * 13 + 42);
+  const rand = makeRng(rx*7+ry*13+42);
 
   const doors = [];
   if (ry > 0) doors.push('N');
-  if (ry < DUNGEON_H - 1) doors.push('S');
-  if (rx < DUNGEON_W - 1) doors.push('E');
+  if (ry < DH-1) doors.push('S');
+  if (rx < DW-1) doors.push('E');
   if (rx > 0) doors.push('W');
 
   const floor = [];
-  for (let ty = 0; ty < ROOM_TILES; ty++) {
-    floor[ty] = [];
-    for (let tx = 0; tx < ROOM_TILES; tx++) floor[ty][tx] = rand() < 0.08 ? 1 : 0;
-  }
+  for (let ty=0;ty<ROOM_TILES;ty++) { floor[ty]=[]; for (let tx=0;tx<ROOM_TILES;tx++) floor[ty][tx]=rand()<0.08?1:0; }
 
   const walls = [];
-  for (let tx = 0; tx < ROOM_TILES; tx++) {
-    for (let ty = 0; ty < ROOM_TILES; ty++) {
-      if (!(tx === 0 || ty === 0 || tx === ROOM_TILES-1 || ty === ROOM_TILES-1)) continue;
-      let isDoor = false;
-      for (const d of doors) {
-        const dd = DOOR[d];
-        if (Math.abs(tx - dd.tx) <= 1 && Math.abs(ty - dd.ty) <= 1) isDoor = true;
-      }
-      if (!isDoor) walls.push({ tx, ty });
+  // Build wall set including irregular bumps
+  const wallSet = new Set();
+  for (let tx=0;tx<ROOM_TILES;tx++) for (let ty=0;ty<ROOM_TILES;ty++) {
+    if (tx===0||ty===0||tx===ROOM_TILES-1||ty===ROOM_TILES-1) wallSet.add(`${tx},${ty}`);
+  }
+  // Add 2-4 irregular alcoves/bumps jutting inward
+  const numBumps = 2 + Math.floor(rand()*3);
+  for (let b=0;b<numBumps;b++) {
+    const side = Math.floor(rand()*4); // 0=N,1=S,2=E,3=W
+    const bw = 2 + Math.floor(rand()*3); // bump width
+    const bd = 1 + Math.floor(rand()*2); // bump depth
+    let bx, by;
+    if (side===0) { bx=2+Math.floor(rand()*(ROOM_TILES-4-bw)); by=1; }
+    else if (side===1) { bx=2+Math.floor(rand()*(ROOM_TILES-4-bw)); by=ROOM_TILES-2-bd; }
+    else if (side===2) { bx=ROOM_TILES-2-bd; by=2+Math.floor(rand()*(ROOM_TILES-4-bw)); }
+    else { bx=1; by=2+Math.floor(rand()*(ROOM_TILES-4-bw)); }
+    for (let dx=0;dx<(side>=2?bd:bw);dx++) for (let dy=0;dy<(side>=2?bw:bd);dy++) {
+      wallSet.add(`${bx+dx},${by+dy}`);
     }
   }
+  // Remove door tiles from wall set, then build wall array
+  for (const d of doors) { const dd=DOOR[d]; for (let ox=-1;ox<=1;ox++) for (let oy=-1;oy<=1;oy++) wallSet.delete(`${dd.tx+ox},${dd.ty+oy}`); }
+  for (const ws of wallSet) { const [tx,ty]=ws.split(',').map(Number); walls.push({tx,ty}); }
 
-  // Individual NPCs
   const npcs = [];
-  const npcCount = 12 + Math.floor(rand() * 15);
-  for (let i = 0; i < npcCount; i++) {
-    const hidden = rand() < 0.45;
-    let cx, cy;
-    if (hidden && npcs.length > 0 && rand() < 0.6) {
-      const nearby = npcs.filter(n => n.hidden);
-      if (nearby.length > 0) {
-        const anchor = nearby[Math.floor(rand() * nearby.length)];
-        cx = anchor.x + (rand() - 0.5) * 1.2;
-        cy = anchor.y + (rand() - 0.5) * 1.2;
-      } else { cx = 2 + rand() * 7; cy = 2 + rand() * 7; }
-    } else { cx = 2 + rand() * 7; cy = 2 + rand() * 7; }
-
-    // Some visible NPCs are talkable
-    const talkable = !hidden && rand() < 0.3;
-
+  const npcCount = 12+Math.floor(rand()*15);
+  for (let i=0;i<npcCount;i++) {
+    const hidden = rand()<0.45;
+    let cx,cy;
+    if (hidden&&npcs.length>0&&rand()<0.6) {
+      const nb=npcs.filter(n=>n.hidden);
+      if (nb.length>0) { const a=nb[Math.floor(rand()*nb.length)]; cx=a.x+(rand()-0.5)*1.2; cy=a.y+(rand()-0.5)*1.2; }
+      else { cx=2+rand()*(ROOM_TILES-4); cy=2+rand()*(ROOM_TILES-4); }
+    } else { cx=2+rand()*(ROOM_TILES-4); cy=2+rand()*(ROOM_TILES-4); }
+    const talkable = !hidden && rand()<0.3;
+    const dlgId = articyDB ? articyDB.randomDialogueId(rand) : null;
     npcs.push({
-      x: clamp(cx, 1.5, 9.5), y: clamp(cy, 1.5, 9.5),
-      vx: (rand()-0.5) * (hidden ? 0.15 : 0.5),
-      vy: (rand()-0.5) * (hidden ? 0.15 : 0.5),
-      hidden, hue: rand()*360, lightness: 25+rand()*20,
-      phase: rand()*Math.PI*2, height: 0.7+rand()*0.4,
+      x:clamp(cx,1.5,ROOM_TILES-1.5), y:clamp(cy,1.5,ROOM_TILES-1.5),
+      vx:(rand()-0.5)*(hidden?0.15:0.5), vy:(rand()-0.5)*(hidden?0.15:0.5),
+      hidden, hue:rand()*360, lightness:25+rand()*20,
+      phase:rand()*Math.PI*2, height:0.7+rand()*0.4,
       talkable,
-      name: talkable ? NPC_NAMES[Math.floor(rand() * NPC_NAMES.length)] : null,
-      line: talkable ? NPC_LINES[Math.floor(rand() * NPC_LINES.length)] : null,
+      name: talkable ? NPC_NAMES[Math.floor(rand()*NPC_NAMES.length)] : null,
+      dialogueId: talkable ? dlgId : null,
+      bubbleType: talkable ? (['?','!','?!'])[Math.floor(rand()*3)] : null,
     });
   }
 
-  // Dancing crowd clusters — huddled tight, jumping together
   const crowds = [];
-  const crowdCount = 2 + Math.floor(rand() * 3);
-  for (let c = 0; c < crowdCount; c++) {
-    const cx = 2.5 + rand() * 6;
-    const cy = 2.5 + rand() * 6;
-    const size = 4 + Math.floor(rand() * 5); // 4-8 per cluster
+  const crowdCount = 2+Math.floor(rand()*3);
+  for (let c=0;c<crowdCount;c++) {
+    const cx=2.5+rand()*6, cy=2.5+rand()*6;
+    const size=4+Math.floor(rand()*5);
     const members = [];
-    // Tighter huddle — smaller offsets
-    for (let m = 0; m < size; m++) {
-      const angle = (m / size) * Math.PI * 2 + rand() * 0.5;
-      const r = 0.4 + rand() * 0.6;
-      members.push({
-        ox: Math.cos(angle) * r,
-        oy: Math.sin(angle) * r,
-        hue: rand() * 360, lightness: 30 + rand() * 25,
-        phase: rand() * Math.PI * 2, height: 0.75 + rand() * 0.35,
-      });
+    for (let m=0;m<size;m++) {
+      const angle=(m/size)*Math.PI*2+rand()*0.5;
+      const r=0.4+rand()*0.6;
+      members.push({ ox:Math.cos(angle)*r, oy:Math.sin(angle)*r, hue:rand()*360, lightness:30+rand()*25, phase:rand()*Math.PI*2, height:0.75+rand()*0.35 });
     }
-    crowds.push({ x: cx, y: cy, radius: 1.3, members });
+    crowds.push({x:cx,y:cy,radius:1.3,members});
   }
 
-  const itemId = ITEM_PLACEMENTS[key] || null;
+  const itemId = ITEM_PLACEMENTS[key]||null;
   let item = null;
-  if (itemId) {
-    const def = ITEM_DEFS.find(d => d.id === itemId);
-    item = { ...def, tx: 4+rand()*3, ty: 4+rand()*3, picked: false };
-  }
+  if (itemId) { const def=ITEM_DEFS.find(d=>d.id===itemId); item={...def,tx:4+rand()*(ROOM_TILES-8),ty:4+rand()*(ROOM_TILES-8),picked:false}; }
 
   const obstacles = [];
-  const obsCount = 1 + Math.floor(rand() * 3);
-  for (let i = 0; i < obsCount; i++) {
-    obstacles.push({
-      tx: 2+Math.floor(rand()*7), ty: 2+Math.floor(rand()*7),
-      type: rand()<0.4 ? 'pillar' : rand()<0.7 ? 'speaker' : 'barrel',
-    });
+  for (let i=0;i<1+Math.floor(rand()*3);i++)
+    obstacles.push({tx:2+Math.floor(rand()*(ROOM_TILES-4)),ty:2+Math.floor(rand()*(ROOM_TILES-4)),type:rand()<0.4?'pillar':rand()<0.7?'speaker':'barrel'});
+
+  // Tokens scattered on floor — numbered claim tickets
+  const tokens = [];
+  // 2 per room. One is a real clothing token, one may be wildcard or random
+  const clothingIdx = (rx + ry * DW) % CLOTHING_DEFS.length;
+  const realNum = CLOTHING_DEFS[clothingIdx].tokenNum;
+  // Second token: 30% chance wildcard (one digit blurred), 70% random number
+  let secondNum, secondWild = false;
+  if (rand() < 0.3) {
+    // Wildcard: pick a real clothing token number, blur one digit
+    const wIdx = Math.floor(rand() * CLOTHING_DEFS.length);
+    const wNum = CLOTHING_DEFS[wIdx].tokenNum;
+    const digits = String(wNum).split('');
+    const blurIdx = Math.floor(rand() * digits.length);
+    digits[blurIdx] = '?';
+    secondNum = digits.join('');
+    secondWild = true;
+  } else {
+    secondNum = 10 + Math.floor(rand() * 90);
   }
+  tokens.push({ tx:2+rand()*(ROOM_TILES-4), ty:2+rand()*(ROOM_TILES-4), picked:false, num:realNum, wild:false });
+  tokens.push({ tx:2+rand()*(ROOM_TILES-4), ty:2+rand()*(ROOM_TILES-4), picked:false, num:secondNum, wild:secondWild });
 
-  const droppedItems = [];
-
-  rooms[key] = { doors, floor, walls, npcs, crowds, item, obstacles, droppedItems, rx, ry };
+  rooms[key] = { doors,floor,walls,npcs,crowds,item,obstacles,droppedItems:[],tokens,rx,ry };
   return rooms[key];
 }
 
 // ── PLAYER ──
 const player = {
-  x: 5.5, y: 5.5,
-  speed: 2.8,
-  stamina: 100, maxStamina: 100,
-  thirst: 80, maxThirst: 100,
-  euros: 15,
-  heldItems: [],
-  moving: false,
-  facing: { x: 0, y: 1 },
-  bobPhase: 0,
+  x:7.5, y:7.5, speed:2.8,
+  stamina:100, maxStamina:100,
+  thirst:80, maxThirst:100,
+  euros:15,
+  tokens:[], // collected token numbers
+  // Inventory: 3 slots. Each slot: { item: ITEM_DEF | null, equipped: bool, isDrink: bool }
+  slots: [null, null, null],
+  moving:false, facing:{x:0,y:1}, bobPhase:0,
 };
 
-// ── DIALOGUE ──
-let dialogueTimer = 0;
-let nearTalkable = null; // NPC near enough to talk to
+// ── DIALOGUE STATE ──
+let dialogueOpen = false;
+let dialogueNPC = null;
+// dialogueCurrentNodeId and dialogueChoices declared near dialogue functions
+
+let nearTalkable = null;
+let pickupFlashTimer = 0;
+
+// Temporary consumable effects (e.g., tablet)
+let activeEffects = []; // { effect, remaining }
+let redPulseAlpha = 0; // screen red pulse for thirst drain
 
 // ── INPUT ──
 const keys = {};
-window.addEventListener('keydown', e => {
+addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   keys[k] = true;
-  if (k === 'e') onInteract();
-  if (k === 'escape') closeBarMenu();
+  if (k==='e') onInteract();
+  if (k==='escape') { closeBarMenu(); closeCoatMenu(); closeDialogue(); }
+  if (k>='1'&&k<='9') pickDialogueChoice(parseInt(k)-1);
 });
-window.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
+addEventListener('keyup', e => keys[e.key.toLowerCase()]=false);
 
 function onInteract() {
-  // Priority: bar menu > talk to NPC
   if (barMenuOpen) { closeBarMenu(); return; }
+  if (coatMenuOpen) { closeCoatMenu(); return; }
+  if (dialogueOpen) return;
   if (nearBar) { openBarMenu(); return; }
+  if (nearCoatCheck) { openCoatMenu(); return; }
   if (!nearTalkable) return;
   if (player.thirst <= 0) return;
-  const npc = nearTalkable;
-  const box = document.getElementById('dialogue-box');
-  box.querySelector('.npc-name').textContent = npc.name;
-  box.querySelector('.npc-name').style.color = `hsl(${npc.hue}, 50%, 70%)`;
-  box.querySelector('.dialogue-text').textContent = npc.line;
-  box.style.opacity = '1';
-  dialogueTimer = 3.5;
+  openDialogue(nearTalkable);
 }
 
-function openBarMenu() {
-  barMenuOpen = true;
-  renderBarMenu();
-  document.getElementById('bar-menu').classList.add('open');
+// ── DIALOGUE SYSTEM (Articy Draft runtime) ──
+let dialogueCurrentNodeId = null; // current Articy fragment Id
+let dialogueChoices = [];         // cached [{targetId, menuText}]
+
+function openDialogue(npc) {
+  if (!articyDB) return;
+  // Charisma-unlocked NPCs may not have a dialogueId — assign one
+  if (!npc.dialogueId) {
+    npc.dialogueId = articyDB.dialogues[Math.floor(Math.random()*articyDB.dialogues.length)];
+    if (!npc.name) npc.name = NPC_NAMES[Math.floor(Math.random()*NPC_NAMES.length)];
+    if (!npc.bubbleType) npc.bubbleType = ['?','!','?!'][Math.floor(Math.random()*3)];
+  }
+  dialogueOpen = true;
+  dialogueNPC = npc;
+  // Get entry fragment from dialogue container
+  const entry = articyDB.getEntryNode(npc.dialogueId);
+  if (!entry) { closeDialogue(); return; }
+  dialogueCurrentNodeId = entry.Id;
+  renderArticyNode();
+  document.getElementById('dialogue-box').classList.add('open');
 }
 
-function closeBarMenu() {
-  barMenuOpen = false;
-  document.getElementById('bar-menu').classList.remove('open');
+function closeDialogue() {
+  dialogueOpen = false;
+  dialogueNPC = null;
+  dialogueCurrentNodeId = null;
+  dialogueChoices = [];
+  document.getElementById('dialogue-box').classList.remove('open');
+  document.getElementById('dialogue-scroll').innerHTML = '';
 }
+
+function renderArticyNode() {
+  if (!dialogueNPC || !dialogueCurrentNodeId || !articyDB) return;
+  const frag = articyDB.nodes.get(dialogueCurrentNodeId);
+  if (!frag) { closeDialogue(); return; }
+  const hue = dialogueNPC.hue;
+
+  // Update portrait/name
+  document.getElementById('dialogue-portrait').textContent = '👤';
+  document.getElementById('dialogue-portrait').style.borderColor = `hsl(${hue},50%,50%)`;
+  document.getElementById('dialogue-name').textContent = dialogueNPC.name;
+  document.getElementById('dialogue-name').style.color = `hsl(${hue},50%,70%)`;
+
+  const scroll = document.getElementById('dialogue-scroll');
+
+  // If this is an NPC line (has Text), show it and collect choices from outputs
+  if (frag.Text) {
+    const entry = document.createElement('div');
+    entry.className = 'dialogue-entry';
+    entry.innerHTML = `<div class="de-speaker" style="color:hsl(${hue},50%,60%)">${dialogueNPC.name}</div><div class="de-text">${frag.Text}</div>`;
+    scroll.appendChild(entry);
+    scroll.scrollTop = scroll.scrollHeight;
+  }
+
+  // Gather choices: output connections lead to player choice nodes (MenuText) or NPC follow-ups
+  const outputs = articyDB.getOutputs(dialogueCurrentNodeId);
+  dialogueChoices = [];
+
+  if (outputs.length === 0) {
+    // Dead end — offer [Leave]
+    dialogueChoices = [{ targetId: null, menuText: '[Leave]' }];
+  } else {
+    // Check if outputs are player choices (have MenuText) or NPC continuations
+    const allPlayerChoices = outputs.every(o => o.target.MenuText);
+    if (allPlayerChoices) {
+      dialogueChoices = outputs.map(o => ({ targetId: o.targetId, menuText: o.target.MenuText }));
+    } else {
+      // Single NPC continuation — auto-advance would need a click, show as [Continue]
+      dialogueChoices = outputs.map(o => ({
+        targetId: o.targetId,
+        menuText: o.target.MenuText || '[Continue]'
+      }));
+    }
+  }
+
+  // Render choices
+  const choicesEl = document.getElementById('dialogue-choices');
+  choicesEl.innerHTML = '';
+  dialogueChoices.forEach((c, i) => {
+    const el = document.createElement('div');
+    el.className = 'dialogue-choice';
+    el.innerHTML = `<span class="choice-num">${i+1}.</span>${c.menuText}`;
+    el.addEventListener('click', () => pickDialogueChoice(i));
+    choicesEl.appendChild(el);
+  });
+}
+
+function pickDialogueChoice(idx) {
+  if (!dialogueOpen || !dialogueNPC || !articyDB) return;
+  if (idx >= dialogueChoices.length) return;
+  const choice = dialogueChoices[idx];
+
+  // Talking drains thirst
+  player.thirst = clamp(player.thirst - 3, 0, player.maxThirst);
+  redPulseAlpha = 0.25;
+
+  // Log player's choice in scroll
+  const scroll = document.getElementById('dialogue-scroll');
+  const pe = document.createElement('div');
+  pe.className = 'dialogue-entry de-player';
+  pe.innerHTML = `<div class="de-speaker">YOU</div><div class="de-text">${choice.menuText}</div>`;
+  scroll.appendChild(pe);
+
+  if (!choice.targetId) { closeDialogue(); return; }
+
+  // Navigate to the chosen node
+  const target = articyDB.nodes.get(choice.targetId);
+  if (!target) { closeDialogue(); return; }
+
+  // If this is a player choice node, follow its output to the next NPC line
+  if (target.MenuText && !target.Text) {
+    const nextOutputs = articyDB.getOutputs(choice.targetId);
+    if (nextOutputs.length === 0) { closeDialogue(); return; }
+    dialogueCurrentNodeId = nextOutputs[0].targetId;
+  } else {
+    dialogueCurrentNodeId = choice.targetId;
+  }
+  renderArticyNode();
+}
+
+// ── BAR MENU ──
+function openBarMenu() { barMenuOpen=true; renderBarMenu(); document.getElementById('bar-menu').classList.add('open'); }
+function closeBarMenu() { barMenuOpen=false; document.getElementById('bar-menu').classList.remove('open'); }
 
 function renderBarMenu() {
-  const container = document.querySelector('#bar-menu .bar-items');
-  const wallet = document.querySelector('#bar-menu .bar-wallet');
-  wallet.textContent = `€${player.euros}`;
-  container.innerHTML = '';
-  for (const drink of DRINKS) {
-    const canAfford = player.euros >= drink.price;
-    const el = document.createElement('div');
-    el.className = 'bar-item' + (canAfford ? '' : ' cant-afford');
-    el.innerHTML = `<div class="drink-name"><span>${drink.icon}</span><div>${drink.name}<div class="drink-effect">${drink.desc}</div></div></div><span class="drink-price">€${drink.price}</span>`;
-    if (canAfford) {
-      el.addEventListener('click', () => buyDrink(drink));
-    }
-    container.appendChild(el);
+  const c=document.querySelector('#bar-menu .bar-items');
+  document.querySelector('#bar-menu .bar-wallet').textContent=`€${player.euros}`;
+  c.innerHTML='';
+  for (const d of DRINKS) {
+    const ok=player.euros>=d.price;
+    const el=document.createElement('div');
+    el.className='bar-item'+(ok?'':' cant-afford');
+    el.innerHTML=`<div class="drink-name"><span>${d.icon}</span><div>${d.name}<div class="drink-effect">${d.desc}</div></div></div><span class="drink-price">€${d.price}</span>`;
+    if (ok) el.addEventListener('click', ()=>buyDrink(d));
+    c.appendChild(el);
   }
 }
 
-function buyDrink(drink) {
-  if (player.euros < drink.price) return;
-  player.euros -= drink.price;
-  if (drink.effect === 'thirst') {
-    player.thirst = Math.min(player.maxThirst, player.thirst + drink.amount);
-  } else if (drink.effect === 'stamina') {
-    player.stamina = Math.min(player.maxStamina, player.stamina + drink.amount);
-  } else if (drink.effect === 'both') {
-    player.thirst = Math.min(player.maxThirst, player.thirst + drink.amount);
-    player.stamina = Math.min(player.maxStamina, player.stamina + drink.amount);
-  }
-  // Flash
-  const flash = document.getElementById('pickup-flash');
-  flash.textContent = `${drink.icon} ${drink.name}`;
-  flash.style.color = '#a855f7';
-  flash.style.opacity = '1';
-  pickupFlashTimer = 1.0;
-  setTimeout(() => flash.style.color = '#ffd93d', 1100);
+function buyDrink(d) {
+  if (player.euros<d.price) return;
+  player.euros -= d.price;
+  player.thirst = clamp(player.thirst+d.thirst, 0, player.maxThirst);
+  player.stamina = clamp(player.stamina+d.stamina, 0, player.maxStamina);
+  flash(`${d.icon} ${d.name}`, '#a855f7');
   renderBarMenu();
 }
 
-// ── EFFECTS ──
+// ── COAT CHECK MENU ──
+function openCoatMenu() { coatMenuOpen=true; renderCoatMenu(); document.getElementById('coat-menu').classList.add('open'); }
+function closeCoatMenu() { coatMenuOpen=false; document.getElementById('coat-menu').classList.remove('open'); }
+
+// Check if a token matches a clothing number (exact or wildcard)
+function tokenMatches(token, targetNum) {
+  const tStr = String(token.num);
+  const cStr = String(targetNum);
+  if (!token.wild) return tStr === cStr;
+  // Wildcard: '?' matches any digit, lengths must match
+  if (tStr.length !== cStr.length) return false;
+  for (let i=0;i<tStr.length;i++) { if (tStr[i]!=='?'&&tStr[i]!==cStr[i]) return false; }
+  return true;
+}
+
+function findMatchingToken(targetNum) {
+  return player.tokens.findIndex(t => tokenMatches(t, targetNum));
+}
+
+function renderCoatMenu() {
+  const c=document.querySelector('#coat-menu .coat-items');
+  const tknList = player.tokens.length>0 ? player.tokens.map(t=>`#${t.num}${t.wild?'*':''}`).join(' ') : 'none';
+  document.querySelector('#coat-menu .coat-tokens').textContent=`🪙 ${tknList}`;
+  c.innerHTML='';
+  for (const cl of CLOTHING_DEFS) {
+    const owned=player.slots.some(s=>s&&s.item.id===cl.id);
+    const matchIdx=findMatchingToken(cl.tokenNum);
+    const hasToken=matchIdx!==-1;
+    const ok=hasToken&&!owned;
+    const el=document.createElement('div');
+    el.className='bar-item'+(owned?' cant-afford':(ok?'':' cant-afford'));
+    const matchLabel = hasToken ? (player.tokens[matchIdx].wild ? '(wild match!)' : '(token found!)') : '';
+    const status = owned ? '(owned)' : hasToken ? matchLabel : `(need #${cl.tokenNum})`;
+    el.innerHTML=`<div class="drink-name"><span>${cl.icon}</span><div>${cl.name} ${status}<div class="drink-effect">${cl.desc}</div></div></div><span class="drink-price">#${cl.tokenNum}</span>`;
+    if (ok) el.addEventListener('click', ()=>claimClothing(cl));
+    c.appendChild(el);
+  }
+}
+
+function claimClothing(cl) {
+  const idx=findMatchingToken(cl.tokenNum);
+  if (idx===-1) return;
+  if (player.slots.some(s=>s&&s.item.id===cl.id)) return;
+  const empty = player.slots.findIndex(s => s === null);
+  if (empty === -1) { flash('Inventory full!', '#ff6b6b'); return; }
+  player.tokens.splice(idx,1);
+  player.slots[empty] = { item:cl, equipped:true, isDrink:false };
+  renderInventory();
+  flash(`${cl.icon} ${cl.name}`, cl.color);
+  renderCoatMenu();
+}
+
+function flash(text, color) {
+  const el=document.getElementById('pickup-flash');
+  el.textContent=text; el.style.color=color||'#ffd93d'; el.style.opacity='1';
+  pickupFlashTimer=1.2;
+}
+
+// ── INVENTORY ──
 function getEffects() {
-  const fx = { speedMult: 1, revealNPCs: false, staminaRegen: 1.0, darken: false };
-  for (const item of player.heldItems) {
-    const def = ITEM_DEFS.find(d => d.id === item);
-    if (!def) continue;
+  const fx = { speedMult:1, revealNPCs:false, staminaRegen:1.0, darken:false, motionBlur:false, staminaDrainMult:1, charisma:false, thirstDrainMult:1 };
+  // Active temporary effects (consumables like tablet)
+  for (const ae of activeEffects) {
+    const ef = ae.effect;
+    if (ef.speedMult) fx.speedMult *= ef.speedMult;
+    if (ef.motionBlur) fx.motionBlur = true;
+    if (ef.revealNPCs) fx.revealNPCs = true;
+    if (ef.staminaRegen) fx.staminaRegen += ef.staminaRegen;
+    if (ef.darken) fx.darken = true;
+  }
+  for (const slot of player.slots) {
+    if (!slot || !slot.equipped || slot.isDrink) continue;
+    const def = slot.item;
     if (def.effect.speedMult) fx.speedMult *= def.effect.speedMult;
     if (def.effect.revealNPCs) fx.revealNPCs = true;
     if (def.effect.staminaRegen) fx.staminaRegen *= def.effect.staminaRegen;
     if (def.effect.darken) fx.darken = true;
+    if (def.effect.motionBlur) fx.motionBlur = true;
+    if (def.effect.staminaDrainMult) fx.staminaDrainMult *= def.effect.staminaDrainMult;
+    if (def.effect.charisma) fx.charisma = true;
+    if (def.effect.thirstDrainMult) fx.thirstDrainMult *= def.effect.thirstDrainMult;
   }
   return fx;
 }
 
-// ── PICKUP ──
-let pickupFlashTimer = 0;
-
-function doPickup(itemDef) {
-  if (player.heldItems.includes(itemDef.id)) return;
-  player.heldItems.push(itemDef.id);
-  updateHeldUI();
-  const flash = document.getElementById('pickup-flash');
-  flash.textContent = `+ ${itemDef.name}`;
-  flash.style.opacity = '1';
-  pickupFlashTimer = 1.2;
-  updateStaminaGlow();
+function addToInventory(itemDef) {
+  if (player.slots.some(s => s && s.item.id === itemDef.id)) return false;
+  const empty = player.slots.findIndex(s => s === null);
+  if (empty === -1) return false;
+  player.slots[empty] = { item: itemDef, equipped: true, isDrink: false };
+  renderInventory();
+  return true;
 }
 
-function unequipItem(itemId) {
-  const idx = player.heldItems.indexOf(itemId);
-  if (idx === -1) return;
-  player.heldItems.splice(idx, 1);
-  updateHeldUI();
-  updateStaminaGlow();
-  const room = getRoom();
-  const def = ITEM_DEFS.find(d => d.id === itemId);
-  room.droppedItems.push({
-    ...def, tx: player.x + (Math.random()-0.5)*1.5, ty: player.y + (Math.random()-0.5)*1.5, picked: false,
-  });
-  const flash = document.getElementById('pickup-flash');
-  flash.textContent = `- ${def.name}`;
-  flash.style.color = '#ff6b6b';
-  flash.style.opacity = '1';
-  pickupFlashTimer = 1.0;
-  setTimeout(() => flash.style.color = '#ffd93d', 1100);
-}
-
-function updateStaminaGlow() {
-  document.getElementById('stamina-outer').classList.toggle('glow', player.heldItems.includes('sunglasses'));
-}
-
-function updateHeldUI() {
-  const container = document.getElementById('held-items');
-  container.innerHTML = '';
-  for (const id of player.heldItems) {
-    const def = ITEM_DEFS.find(d => d.id === id);
-    const el = document.createElement('div');
-    el.className = 'held-item';
-    el.innerHTML = `<span class="icon">${def.icon}</span><div><div style="color:${def.color}">${def.name}</div><div class="desc">${def.desc}</div></div>`;
-    el.addEventListener('click', () => unequipItem(id));
-    container.appendChild(el);
+function onSlotClick(idx) {
+  const slot = player.slots[idx];
+  if (!slot) return;
+  if (slot.isDrink) {
+    // Consume drink — apply effects
+    const d = slot.drinkData;
+    if (d) {
+      player.thirst = clamp(player.thirst + d.thirst, 0, player.maxThirst);
+      player.stamina = clamp(player.stamina + d.stamina, 0, player.maxStamina);
+      flash(`${d.icon} Drank ${d.name}`, '#a855f7');
+    }
+    player.slots[idx] = null;
+    renderInventory();
+    return;
   }
+  // Toggle equip
+  slot.equipped = !slot.equipped;
+  renderInventory();
 }
+
+function renderInventory() {
+  const top = document.getElementById('inv-top');
+  const bot = document.getElementById('inv-bottom');
+  top.innerHTML = ''; bot.innerHTML = '';
+
+  player.slots.forEach((slot, i) => {
+    const el = document.createElement('div');
+    el.className = 'inv-slot';
+    if (!slot) {
+      el.classList.add('empty');
+      el.innerHTML = '<span class="slot-label">empty</span>';
+    } else {
+      if (!slot.equipped) el.classList.add('unequipped');
+      if (slot.isDrink) el.classList.add('drink-slot');
+      el.innerHTML = `<span class="slot-icon">${slot.item.icon}</span><span class="slot-label">${slot.item.name}</span>`;
+      el.addEventListener('click', () => onSlotClick(i));
+    }
+    if (i === 0) top.appendChild(el);
+    else bot.appendChild(el);
+  });
+}
+renderInventory();
 
 // ── MINIMAP ──
 function updateMinimap() {
-  const el = document.getElementById('minimap');
-  el.innerHTML = '';
-  for (let ry = 0; ry < DUNGEON_H; ry++) {
-    for (let rx = 0; rx < DUNGEON_W; rx++) {
-      const cell = document.createElement('div');
-      cell.className = 'minimap-cell';
-      if (rx === currentRoom.x && ry === currentRoom.y) cell.classList.add('current');
-      else if (visited.has(`${rx},${ry}`)) cell.classList.add('visited');
-      el.appendChild(cell);
-    }
+  const el=document.getElementById('minimap'); el.innerHTML='';
+  for (let ry=0;ry<DH;ry++) for (let rx=0;rx<DW;rx++) {
+    const c=document.createElement('div'); c.className='minimap-cell';
+    if (rx===curRoom.x&&ry===curRoom.y) c.classList.add('current');
+    else if (visited.has(`${rx},${ry}`)) c.classList.add('visited');
+    el.appendChild(c);
   }
 }
 updateMinimap();
 
-function getRoom() { return generateRoom(currentRoom.x, currentRoom.y); }
+function getRoom() { return generateRoom(curRoom.x, curRoom.y); }
 
 // ── TRANSITION ──
-let transitioning = false;
-let transAlpha = 0;
-let transDir = 1;
-let pendingRoom = null;
-let pendingEnter = null;
-
+let transitioning=false, transAlpha=0, transDir=1, pendingRoom=null, pendingEnter=null;
 function startTransition(door) {
   if (transitioning) return;
-  const d = DOOR[door];
-  const nx = currentRoom.x + d.dir.x;
-  const ny = currentRoom.y + d.dir.y;
-  if (nx < 0 || nx >= DUNGEON_W || ny < 0 || ny >= DUNGEON_H) return;
-  transitioning = true;
-  transDir = 1;
-  transAlpha = 0;
-  pendingRoom = { x: nx, y: ny };
-  pendingEnter = d.enter;
+  const d=DOOR[door]; const nx=curRoom.x+d.dir.x, ny=curRoom.y+d.dir.y;
+  if (nx<0||nx>=DW||ny<0||ny>=DH) return;
+  transitioning=true; transDir=1; transAlpha=0;
+  pendingRoom={x:nx,y:ny}; pendingEnter=d.enter;
 }
+
+// ── MOTION BLUR ──
+let prevPositions = []; // store last N screen positions for trail
 
 // ── UPDATE ──
 let lastTime = performance.now();
 
 function update(now) {
-  const rawDt = (now - lastTime) / 1000;
-  const dt = Math.min(rawDt, 0.05);
+  const dt = Math.min((now-lastTime)/1000, 0.05);
   lastTime = now;
 
-  if (pickupFlashTimer > 0) {
-    pickupFlashTimer -= dt;
-    if (pickupFlashTimer <= 0) document.getElementById('pickup-flash').style.opacity = '0';
-  }
+  if (pickupFlashTimer>0) { pickupFlashTimer-=dt; if (pickupFlashTimer<=0) document.getElementById('pickup-flash').style.opacity='0'; }
 
-  if (dialogueTimer > 0) {
-    dialogueTimer -= dt;
-    if (dialogueTimer <= 0) document.getElementById('dialogue-box').style.opacity = '0';
-  }
-
-  // Transition
   if (transitioning) {
-    transAlpha += transDir * dt * 3;
-    if (transDir === 1 && transAlpha >= 1) {
-      transAlpha = 1;
-      transDir = -1;
-      currentRoom = pendingRoom;
-      visited.add(`${currentRoom.x},${currentRoom.y}`);
-      player.x = pendingEnter.tx + 0.5;
-      player.y = pendingEnter.ty + 0.5;
-      generateRoom(currentRoom.x, currentRoom.y);
-      updateMinimap();
+    transAlpha+=transDir*dt*3;
+    if (transDir===1&&transAlpha>=1) {
+      transAlpha=1; transDir=-1;
+      curRoom=pendingRoom; visited.add(`${curRoom.x},${curRoom.y}`);
+      player.x=pendingEnter.tx+0.5; player.y=pendingEnter.ty+0.5;
+      generateRoom(curRoom.x,curRoom.y); updateMinimap();
     }
-    if (transDir === -1 && transAlpha <= 0) {
-      transAlpha = 0;
-      transitioning = false;
-    }
-    requestAnimationFrame(update);
-    draw();
-    return;
+    if (transDir===-1&&transAlpha<=0) { transAlpha=0; transitioning=false; }
+    requestAnimationFrame(update); draw(); return;
   }
 
-  const room = getRoom();
-  const fx = getEffects();
+  const room=getRoom();
+  const fx=getEffects();
 
-  // Movement input
-  let dx = 0, dy = 0;
-  if (keys['w'] || keys['arrowup']) { dx -= 1; dy -= 1; }
-  if (keys['s'] || keys['arrowdown']) { dx += 1; dy += 1; }
-  if (keys['a'] || keys['arrowleft']) { dx -= 1; dy += 1; }
-  if (keys['d'] || keys['arrowright']) { dx += 1; dy -= 1; }
+  let dx=0,dy=0;
+  if (!dialogueOpen && !barMenuOpen) {
+    if (keys['w']||keys['arrowup']) { dx-=1;dy-=1; }
+    if (keys['s']||keys['arrowdown']) { dx+=1;dy+=1; }
+    if (keys['a']||keys['arrowleft']) { dx-=1;dy+=1; }
+    if (keys['d']||keys['arrowright']) { dx+=1;dy-=1; }
+  }
 
-  player.moving = dx !== 0 || dy !== 0;
+  player.moving = dx!==0||dy!==0;
 
-  // Speed calculation
+  // Speed
   let speedMult = fx.speedMult;
-  const exhausted = player.stamina <= 0;
-  if (exhausted) speedMult *= 0.35;
 
-  // Check overlap with any NPC or crowd — slow down when pushing through
+  // Stamina affects speed: linear from 100% at full to 40% at 0
+  const staminaFactor = 0.4 + 0.6 * (player.stamina / player.maxStamina);
+  speedMult *= staminaFactor;
+
+  // NPC proximity slowdown — tighter hitbox, must actually overlap
   let touchingNPC = false;
   for (const npc of room.npcs) {
     if (npc.hidden && !fx.revealNPCs) continue;
-    if (dist(player.x, player.y, npc.x, npc.y) < 0.8) { touchingNPC = true; break; }
+    if (dist(player.x,player.y,npc.x,npc.y) < 0.5) { touchingNPC=true; break; }
   }
   if (!touchingNPC) {
     for (const crowd of room.crowds) {
       for (const m of crowd.members) {
-        if (dist(player.x, player.y, crowd.x + m.ox, crowd.y + m.oy) < 0.7) { touchingNPC = true; break; }
+        if (dist(player.x,player.y, crowd.x+m.ox, crowd.y+m.oy) < 0.45) { touchingNPC=true; break; }
       }
       if (touchingNPC) break;
     }
@@ -848,533 +1164,624 @@ function update(now) {
   if (touchingNPC) speedMult *= 0.3;
 
   if (player.moving) {
-    const len = Math.sqrt(dx*dx + dy*dy);
-    dx /= len; dy /= len;
-    const spd = player.speed * speedMult;
-    player.x += dx * spd * dt;
-    player.y += dy * spd * dt;
-    player.facing = { x: dx, y: dy };
-    player.bobPhase += dt * 10;
-    if (!exhausted) player.stamina -= 8 * dt;
-    player.thirst -= 3 * dt;
+    const len=Math.hypot(dx,dy); dx/=len; dy/=len;
+    player.x+=dx*player.speed*speedMult*dt;
+    player.y+=dy*player.speed*speedMult*dt;
+    player.facing={x:dx,y:dy};
+    player.bobPhase+=dt*10;
+    player.thirst-=3*fx.thirstDrainMult*dt;
   } else {
-    player.thirst -= 0.5 * dt;
+    player.thirst-=0.5*fx.thirstDrainMult*dt;
   }
 
-  // Stamina regen
-  if (!player.moving) {
-    player.stamina += 5 * fx.staminaRegen * dt;
-  } else if (fx.staminaRegen > 1) {
-    player.stamina += 3 * fx.staminaRegen * dt;
+  // Stamina drain — slow constant drain
+  player.stamina -= 2 * fx.staminaDrainMult * dt;
+
+  // Stamina regen when not moving
+  if (!player.moving) player.stamina += 4 * fx.staminaRegen * dt;
+  else if (fx.staminaRegen > 1) player.stamina += 2 * fx.staminaRegen * dt;
+
+  player.stamina=clamp(player.stamina,0,player.maxStamina);
+  player.thirst=clamp(player.thirst,0,player.maxThirst);
+  player.x=clamp(player.x,0.5,ROOM_TILES-0.5);
+  player.y=clamp(player.y,0.5,ROOM_TILES-0.5);
+
+  // Tick down temporary effects
+  for (let i=activeEffects.length-1;i>=0;i--) {
+    activeEffects[i].remaining -= dt;
+    if (activeEffects[i].remaining <= 0) activeEffects.splice(i,1);
   }
 
-  player.stamina = clamp(player.stamina, 0, player.maxStamina);
-  player.thirst = clamp(player.thirst, 0, player.maxThirst);
+  // Fade red pulse
+  if (redPulseAlpha > 0) redPulseAlpha = Math.max(0, redPulseAlpha - dt * 2);
 
-  player.x = clamp(player.x, 0.5, ROOM_TILES - 0.5);
-  player.y = clamp(player.y, 0.5, ROOM_TILES - 0.5);
-
-  // Wall collision (hard)
+  // Walls
   for (const w of room.walls) {
-    const d = dist(player.x, player.y, w.tx+0.5, w.ty+0.5);
-    if (d < 0.7 && d > 0.01) {
-      const push = 0.7 - d;
-      player.x += ((player.x - (w.tx+0.5)) / d) * push;
-      player.y += ((player.y - (w.ty+0.5)) / d) * push;
-    }
+    const d=dist(player.x,player.y,w.tx+0.5,w.ty+0.5);
+    if (d<0.7&&d>0.01) { const p=0.7-d; player.x+=(player.x-(w.tx+0.5))/d*p; player.y+=(player.y-(w.ty+0.5))/d*p; }
   }
-
-  // Obstacle collision (hard)
+  // Obstacles
   for (const o of room.obstacles) {
-    const d = dist(player.x, player.y, o.tx+0.5, o.ty+0.5);
-    if (d < 0.7 && d > 0.01) {
-      const push = 0.7 - d;
-      player.x += ((player.x - (o.tx+0.5)) / d) * push;
-      player.y += ((player.y - (o.ty+0.5)) / d) * push;
+    const d=dist(player.x,player.y,o.tx+0.5,o.ty+0.5);
+    if (d<0.7&&d>0.01) { const p=0.7-d; player.x+=(player.x-(o.tx+0.5))/d*p; player.y+=(player.y-(o.ty+0.5))/d*p; }
+  }
+  // Bar counter
+  const rk=`${curRoom.x},${curRoom.y}`;
+  if (rk===BAR_ROOM) {
+    for (let seg=-1;seg<=1;seg++) {
+      const bx=BAR_POS.x+seg*0.9, by=BAR_POS.y+seg*0.45;
+      const d=dist(player.x,player.y,bx,by);
+      if (d<0.8&&d>0.01) { const p=0.8-d; player.x+=(player.x-bx)/d*p; player.y+=(player.y-by)/d*p; }
     }
   }
 
-  // Bar counter collision
-  const rk = `${currentRoom.x},${currentRoom.y}`;
-  if (rk === BAR_ROOM) {
-    for (let seg = -1; seg <= 1; seg++) {
-      const bx = BAR_POS.x + seg * 0.9;
-      const by = BAR_POS.y + seg * 0.45;
-      const d = dist(player.x, player.y, bx, by);
-      if (d < 0.8 && d > 0.01) {
-        const push = 0.8 - d;
-        player.x += ((player.x - bx) / d) * push;
-        player.y += ((player.y - by) / d) * push;
+  // Coat check desk
+  if (rk===COAT_CHECK_ROOM) {
+    for (let seg=-1;seg<=1;seg++) {
+      const cx=COAT_CHECK_POS.x+seg*0.9, cy=COAT_CHECK_POS.y+seg*0.45;
+      const d=dist(player.x,player.y,cx,cy);
+      if (d<0.8&&d>0.01) { const p=0.8-d; player.x+=(player.x-cx)/d*p; player.y+=(player.y-cy)/d*p; }
+    }
+  }
+
+  // Doors
+  for (const door of room.doors) {
+    const dd=DOOR[door];
+    if (Math.abs(player.x-(dd.tx+0.5))<1&&Math.abs(player.y-(dd.ty+0.5))<1) { startTransition(door); break; }
+  }
+
+  // Pickups
+  if (room.item&&!room.item.picked) {
+    if (dist(player.x,player.y,room.item.tx,room.item.ty)<1.0) {
+      if (room.item.type==='consumable') {
+        room.item.picked=true;
+        activeEffects.push({ effect:room.item.effect, remaining:room.item.duration||10 });
+        flash(`💊 ${room.item.name} — ${room.item.duration}s`, room.item.color);
+      } else if (!player.slots.some(s=>s&&s.item.id===room.item.id)) {
+        if (addToInventory(room.item)) { room.item.picked=true; flash(`+ ${room.item.name}`); }
+      }
+    }
+  }
+  for (let i=room.droppedItems.length-1;i>=0;i--) {
+    const di=room.droppedItems[i];
+    if (di.picked) continue;
+    if (dist(player.x,player.y,di.tx,di.ty)<1.0) {
+      if (di.type==='consumable') {
+        di.picked=true; room.droppedItems.splice(i,1);
+        activeEffects.push({ effect:di.effect, remaining:di.duration||10 });
+        flash(`💊 ${di.name} — ${di.duration}s`, di.color);
+      } else if (!player.slots.some(s=>s&&s.item.id===di.id)) {
+        if (addToInventory(di)) { di.picked=true; room.droppedItems.splice(i,1); flash(`+ ${di.name}`); }
       }
     }
   }
 
-  // Door check
-  for (const door of room.doors) {
-    const dd = DOOR[door];
-    if (Math.abs(player.x - (dd.tx+0.5)) < 1 && Math.abs(player.y - (dd.ty+0.5)) < 1) {
-      startTransition(door);
-      break;
+  // Token pickup
+  for (const tk of room.tokens) {
+    if (!tk.picked && dist(player.x,player.y,tk.tx,tk.ty)<0.8) {
+      tk.picked=true;
+      player.tokens.push({ num:tk.num, wild:tk.wild });
+      flash(`🪙 Token #${tk.num}${tk.wild?' (wild)':''}`, tk.wild?'#ff9d3d':'#ffd93d');
     }
   }
 
-  // Walk-over item pickup
-  if (room.item && !room.item.picked && !player.heldItems.includes(room.item.id)) {
-    if (dist(player.x, player.y, room.item.tx, room.item.ty) < 1.0) {
-      room.item.picked = true;
-      doPickup(room.item);
-    }
-  }
-  for (let i = room.droppedItems.length - 1; i >= 0; i--) {
-    const di = room.droppedItems[i];
-    if (!di.picked && !player.heldItems.includes(di.id) && dist(player.x, player.y, di.tx, di.ty) < 1.0) {
-      di.picked = true;
-      room.droppedItems.splice(i, 1);
-      doPickup(di);
-    }
-  }
-
-  // Find nearest talkable NPC
-  nearTalkable = null;
-  let nearTalkDist = 2.0;
+  // Talkable NPC
+  nearTalkable=null; let nearD=2.0;
   for (const npc of room.npcs) {
-    if (!npc.talkable) continue;
-    if (npc.hidden && !fx.revealNPCs) continue;
-    const d = dist(player.x, player.y, npc.x, npc.y);
-    if (d < nearTalkDist) {
-      nearTalkDist = d;
-      nearTalkable = npc;
-    }
+    if (!npc.talkable && !fx.charisma) continue;
+    if (npc.hidden&&!fx.revealNPCs) continue;
+    const d=dist(player.x,player.y,npc.x,npc.y);
+    if (d<nearD) { nearD=d; nearTalkable=npc; }
   }
 
   // Bar proximity
-  nearBar = rk === BAR_ROOM && dist(player.x, player.y, BAR_POS.x, BAR_POS.y) < 2.0;
-  document.getElementById('bar-prompt').style.opacity = (nearBar && !barMenuOpen) ? '1' : '0';
+  nearBar = rk===BAR_ROOM && dist(player.x,player.y,BAR_POS.x,BAR_POS.y)<2.0;
+  document.getElementById('bar-prompt').style.opacity = (nearBar&&!barMenuOpen&&!dialogueOpen)?'1':'0';
+  if (barMenuOpen&&!nearBar) closeBarMenu();
 
-  // Close bar menu if walked away
-  if (barMenuOpen && !nearBar) closeBarMenu();
-
-  // Wallet display
-  document.getElementById('wallet-display').textContent = `€${player.euros}`;
+  nearCoatCheck = rk===COAT_CHECK_ROOM && dist(player.x,player.y,COAT_CHECK_POS.x,COAT_CHECK_POS.y)<2.0;
+  document.getElementById('coat-prompt').style.opacity = (nearCoatCheck&&!coatMenuOpen&&!dialogueOpen)?'1':'0';
+  if (coatMenuOpen&&!nearCoatCheck) closeCoatMenu();
 
   // NPC movement
   for (const npc of room.npcs) {
-    npc.x += npc.vx * dt;
-    npc.y += npc.vy * dt;
-    npc.phase += dt * 2;
-    if (npc.x < 1.5 || npc.x > 9.5) npc.vx *= -1;
-    if (npc.y < 1.5 || npc.y > 9.5) npc.vy *= -1;
-    npc.x = clamp(npc.x, 1.5, 9.5);
-    npc.y = clamp(npc.y, 1.5, 9.5);
-    if (Math.random() < 0.005) {
-      npc.vx = (Math.random()-0.5) * (npc.hidden ? 0.15 : 0.5);
-      npc.vy = (Math.random()-0.5) * (npc.hidden ? 0.15 : 0.5);
-    }
+    npc.x+=npc.vx*dt; npc.y+=npc.vy*dt; npc.phase+=dt*2;
+    if (npc.x<1.5||npc.x>ROOM_TILES-1.5) npc.vx*=-1;
+    if (npc.y<1.5||npc.y>ROOM_TILES-1.5) npc.vy*=-1;
+    npc.x=clamp(npc.x,1.5,ROOM_TILES-1.5); npc.y=clamp(npc.y,1.5,ROOM_TILES-1.5);
+    if (Math.random()<0.005) { npc.vx=(Math.random()-0.5)*(npc.hidden?0.15:0.5); npc.vy=(Math.random()-0.5)*(npc.hidden?0.15:0.5); }
+  }
+
+  // Motion blur trail
+  const camIso = toIso(player.x, player.y);
+  if (fx.motionBlur && player.moving) {
+    prevPositions.push({ sx: camIso.sx, sy: camIso.sy });
+    if (prevPositions.length > 6) prevPositions.shift();
+  } else {
+    prevPositions = [];
   }
 
   // UI
-  document.getElementById('stamina-bar').style.width = `${(player.stamina/player.maxStamina)*100}%`;
-  document.getElementById('thirst-bar').style.width = `${(player.thirst/player.maxThirst)*100}%`;
-  document.getElementById('thirst-warning').style.opacity = player.thirst <= 0 ? '1' : '0';
+  document.getElementById('stamina-bar').style.width=`${(player.stamina/player.maxStamina)*100}%`;
+  document.getElementById('thirst-bar').style.width=`${(player.thirst/player.maxThirst)*100}%`;
+  document.getElementById('wallet-display').textContent=`€${player.euros}`;
+  document.getElementById('token-display').textContent=player.tokens.length>0?`🪙 ${player.tokens.map(t=>'#'+t.num).join(' ')}`:'';
 
-  if (player.heldItems.includes('sunglasses')) {
-    const pulse = 0.3 + Math.sin(performance.now()/400) * 0.15;
-    document.getElementById('stamina-outer').style.boxShadow =
+  // Stamina message
+  const smsg = document.getElementById('stamina-msg');
+  if (player.stamina < 15) { smsg.textContent='EXHAUSTED'; smsg.style.opacity='1'; }
+  else if (player.stamina < 40) { smsg.textContent='TIRED'; smsg.style.opacity='1'; }
+  else smsg.style.opacity='0';
+
+  // Thirst message
+  const tmsg = document.getElementById('thirst-msg');
+  if (player.thirst <= 0) {
+    tmsg.textContent = THIRSTY_LINES[Math.floor(now/3000) % THIRSTY_LINES.length];
+    tmsg.style.opacity='1';
+  } else if (player.thirst < 20) {
+    tmsg.textContent='GETTING DRY...'; tmsg.style.opacity='1';
+  } else tmsg.style.opacity='0';
+
+  // Glow
+  document.getElementById('stamina-ui').classList.toggle('glow', player.slots.some(s=>s&&s.equipped&&s.item.id==='sunglasses'));
+  if (player.slots.some(s=>s&&s.equipped&&s.item.id==='sunglasses')) {
+    const pulse=0.3+Math.sin(now/400)*0.15;
+    document.querySelector('#stamina-ui .bar-outer').style.boxShadow=
       `0 0 ${8+pulse*10}px rgba(78,205,196,${pulse}), 0 0 ${16+pulse*10}px rgba(78,205,196,${pulse*0.5})`;
   } else {
-    document.getElementById('stamina-outer').style.boxShadow = '';
+    document.querySelector('#stamina-ui .bar-outer').style.boxShadow='';
   }
 
-  const names = [['Main Floor','VIP Booth'],['Lounge','DJ Booth']];
-  document.getElementById('room-name').textContent = names[currentRoom.y][currentRoom.x];
+  const names=[['Main Floor','VIP Booth'],['Lounge','DJ Booth']];
+  document.getElementById('room-name').textContent=names[curRoom.y][curRoom.x];
 
   draw();
   requestAnimationFrame(update);
 }
 
 // ── DRAW ──
-function drawIsoDiamond(cx, cy, w, h, fill, stroke) {
-  ctx.beginPath();
-  ctx.moveTo(cx, cy - h/2);
-  ctx.lineTo(cx + w/2, cy);
-  ctx.lineTo(cx, cy + h/2);
-  ctx.lineTo(cx - w/2, cy);
-  ctx.closePath();
-  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
-  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+function dIso(cx,cy,w,h,fill,stroke) {
+  ctx.beginPath(); ctx.moveTo(cx,cy-h/2); ctx.lineTo(cx+w/2,cy); ctx.lineTo(cx,cy+h/2); ctx.lineTo(cx-w/2,cy); ctx.closePath();
+  if (fill) { ctx.fillStyle=fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle=stroke; ctx.lineWidth=1; ctx.stroke(); }
 }
 
-function drawNPCBody(iso, hue, lightness, h, bob, alpha) {
-  ctx.globalAlpha = alpha;
-  ctx.fillStyle = 'rgba(0,0,0,0.3)';
-  ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy+2, 9, 4.5, 0, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = `hsl(${hue}, 30%, ${lightness}%)`;
-  ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy-9*h+bob, 6.5*h, 10*h, 0, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = `hsl(${hue}, 15%, ${lightness+25}%)`;
-  ctx.beginPath(); ctx.arc(iso.sx, iso.sy-20*h+bob, 4.5*h, 0, Math.PI*2); ctx.fill();
-  ctx.globalAlpha = 1;
+function drawBody(iso,hue,light,h,bob,alpha) {
+  ctx.globalAlpha=alpha;
+  ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy+2,9,4.5,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=`hsl(${hue},30%,${light}%)`; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-9*h+bob,6.5*h,10*h,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=`hsl(${hue},15%,${light+25}%)`; ctx.beginPath(); ctx.arc(iso.sx,iso.sy-20*h+bob,4.5*h,0,Math.PI*2); ctx.fill();
+  ctx.globalAlpha=1;
 }
 
-// Draw speech bubble above an NPC
-function drawSpeechBubble(iso, h, bob, canTalk) {
-  const bx = iso.sx + 8;
-  const by = iso.sy - 26*h + bob - 6;
-  const bw = 14, bh = 10;
+function drawBubble(iso, h, bob, type) {
+  // type: '?', '!', '?!', '...', or 'thirsty'
+  const bx=iso.sx+10, by=iso.sy-26*h+bob-8;
+  const bw=type.length>1?18:14, bh=12;
 
-  // Bubble
-  ctx.fillStyle = canTalk ? 'rgba(255,255,255,0.85)' : 'rgba(80,80,80,0.6)';
+  ctx.fillStyle = type==='...' ? 'rgba(80,80,80,0.6)' : 'rgba(255,255,255,0.9)';
+  // Rounded rect
+  const r=3;
   ctx.beginPath();
-  ctx.moveTo(bx - bw/2 + 2, by - bh);
-  ctx.lineTo(bx + bw/2 - 2, by - bh);
-  ctx.quadraticCurveTo(bx + bw/2, by - bh, bx + bw/2, by - bh + 2);
-  ctx.lineTo(bx + bw/2, by - 2);
-  ctx.quadraticCurveTo(bx + bw/2, by, bx + bw/2 - 2, by);
-  ctx.lineTo(bx - bw/2 + 2, by);
-  ctx.quadraticCurveTo(bx - bw/2, by, bx - bw/2, by - 2);
-  ctx.lineTo(bx - bw/2, by - bh + 2);
-  ctx.quadraticCurveTo(bx - bw/2, by - bh, bx - bw/2 + 2, by - bh);
+  ctx.moveTo(bx-bw/2+r, by-bh); ctx.lineTo(bx+bw/2-r, by-bh);
+  ctx.quadraticCurveTo(bx+bw/2,by-bh, bx+bw/2,by-bh+r);
+  ctx.lineTo(bx+bw/2, by-r); ctx.quadraticCurveTo(bx+bw/2,by, bx+bw/2-r,by);
+  ctx.lineTo(bx-bw/2+r, by); ctx.quadraticCurveTo(bx-bw/2,by, bx-bw/2,by-r);
+  ctx.lineTo(bx-bw/2, by-bh+r); ctx.quadraticCurveTo(bx-bw/2,by-bh, bx-bw/2+r,by-bh);
   ctx.fill();
-
   // Tail
-  ctx.beginPath();
-  ctx.moveTo(bx - 3, by);
-  ctx.lineTo(bx - 1, by + 4);
-  ctx.lineTo(bx + 2, by);
-  ctx.fill();
+  ctx.beginPath(); ctx.moveTo(bx-3,by); ctx.lineTo(bx-1,by+4); ctx.lineTo(bx+2,by); ctx.fill();
 
-  // Dots or X
-  if (canTalk) {
-    ctx.fillStyle = '#333';
-    for (let i = -1; i <= 1; i++) {
-      ctx.beginPath();
-      ctx.arc(bx + i * 3, by - bh/2, 1, 0, Math.PI*2);
-      ctx.fill();
-    }
-  } else {
-    // X — can't talk (thirsty)
-    ctx.strokeStyle = '#ff6b6b';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(bx - 3, by - bh + 2); ctx.lineTo(bx + 3, by - 2);
-    ctx.moveTo(bx + 3, by - bh + 2); ctx.lineTo(bx - 3, by - 2);
-    ctx.stroke();
-  }
+  // Text
+  ctx.fillStyle = type==='...' ? '#666' : '#222';
+  ctx.font = `bold ${bh-2}px Courier New`;
+  ctx.textAlign = 'center';
+  ctx.fillText(type, bx, by-bh/2+4);
 }
 
 function draw() {
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0,0,W,H);
+  const fx=getEffects();
 
-  const camIso = toIso(player.x, player.y);
-  const camOx = W/2 - camIso.sx;
-  const camOy = H/2 - camIso.sy - 60;
+  const camIso=toIso(player.x,player.y);
+  const camOx=W/2-camIso.sx, camOy=H/2-camIso.sy-60;
+
+  // Motion blur: draw faded previous frames
+  if (fx.motionBlur && prevPositions.length > 0 && player.moving) {
+    for (let i=0; i<prevPositions.length; i++) {
+      const pp = prevPositions[i];
+      const alpha = (i / prevPositions.length) * 0.15;
+      const ox = W/2 - pp.sx;
+      const oy = H/2 - pp.sy - 60;
+      ctx.globalAlpha = alpha;
+      ctx.save();
+      ctx.translate(ox, oy);
+      drawScene(fx, false);
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
 
   ctx.save();
   ctx.translate(camOx, camOy);
+  drawScene(fx, true);
+  ctx.restore();
 
-  const room = getRoom();
-  const fx = getEffects();
-  const time = performance.now() / 1000;
+  // Club pulse — 130 BPM with random patterns
+  const beatNum = Math.floor((performance.now() / 1000) * (130/60));
+  const beatFrac = ((performance.now() / 1000) * (130/60)) % 1;
+  const bh = (beatNum * 2654435761) >>> 0;
+  const pulseType = (bh >> 4) % 7;
+  let pulse = 0;
+  if (pulseType < 2) {
+    // Smooth sine pulse on beat
+    pulse = Math.pow(Math.cos(beatFrac * Math.PI), 2) * (1 - beatFrac * 0.3);
+  } else if (pulseType === 2) {
+    // Double pulse — two smooth bumps
+    pulse = Math.max(
+      Math.pow(Math.cos(beatFrac * Math.PI * 2), 2) * (1 - beatFrac),
+      Math.pow(Math.max(0, Math.cos((beatFrac - 0.5) * Math.PI * 2)), 2) * 0.6
+    );
+  } else if (pulseType === 3) {
+    // Slow swell — builds through the beat
+    pulse = Math.sin(beatFrac * Math.PI) * 0.8;
+  } else if (pulseType === 4) {
+    // Gentle throb (2 per beat)
+    pulse = Math.pow(Math.sin(beatFrac * Math.PI * 2), 2) * 0.6;
+  } else {
+    // Rest — no pulse
+    pulse = 0;
+  }
+  if (pulse > 0.01) {
+    const hue = (bh >> 12) % 3;
+    const colors = ['200,180,255','180,220,255','255,200,240'];
+    ctx.fillStyle = `rgba(${colors[hue]},${pulse * 0.06})`;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  // Overlays
+  if (transitioning) { ctx.fillStyle=`rgba(0,0,0,${transAlpha})`; ctx.fillRect(0,0,W,H); }
+
+  if (player.stamina<25) {
+    const i=1-(player.stamina/25);
+    ctx.fillStyle=`rgba(0,0,0,${i*0.3})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  if (fx.darken) {
+    const p=0.3+Math.sin(performance.now()/1500)*0.05;
+    ctx.fillStyle=`rgba(0,0,0,${p})`; ctx.fillRect(0,0,W,H);
+  }
+
+  if (player.thirst<20) {
+    const i=1-(player.thirst/20);
+    ctx.fillStyle=`rgba(120,20,20,${i*0.25})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // Red pulse when thirst drains from dialogue
+  if (redPulseAlpha > 0) {
+    ctx.fillStyle=`rgba(160,20,20,${redPulseAlpha * 0.6})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // Active effect timer display
+  if (activeEffects.length > 0) {
+    ctx.font='bold 11px Courier New'; ctx.textAlign='left';
+    activeEffects.forEach((ae, i) => {
+      const secs = Math.ceil(ae.remaining);
+      ctx.fillStyle=`rgba(78,205,196,${0.5+Math.sin(performance.now()/300)*0.3})`;
+      ctx.fillText(`💊 TABLET ${secs}s`, 20, H/2 - 20 + i*18);
+    });
+  }
+}
+
+function drawScene(fx, drawUI) {
+  const room=getRoom();
+  const time=performance.now()/1000;
 
   // Floor
-  for (let ty = 0; ty < ROOM_TILES; ty++) {
-    for (let tx = 0; tx < ROOM_TILES; tx++) {
-      const iso = toIso(tx+0.5, ty+0.5);
-      const checker = (tx+ty) % 2 === 0;
-      const baseFill = room.floor[ty][tx] === 1 ? '#1e1e3a' : (checker ? '#131325' : '#16162a');
-      drawIsoDiamond(iso.sx, iso.sy, TILE_W-2, TILE_H-2, baseFill, '#222240');
-    }
+  for (let ty=0;ty<ROOM_TILES;ty++) for (let tx=0;tx<ROOM_TILES;tx++) {
+    const iso=toIso(tx+0.5,ty+0.5);
+    const ch=(tx+ty)%2===0;
+    dIso(iso.sx,iso.sy,TILE_W-2,TILE_H-2, room.floor[ty][tx]===1?'#1e1e3a':(ch?'#131325':'#16162a'), '#222240');
   }
 
-  // Entities for depth sort
-  const entities = [];
+  const ents=[];
+  for (const w of room.walls) ents.push({t:'wall',x:w.tx+0.5,y:w.ty+0.5,d:w});
 
-  for (const w of room.walls)
-    entities.push({ type: 'wall', x: w.tx+0.5, y: w.ty+0.5, data: w });
+  const rk=`${curRoom.x},${curRoom.y}`;
+  if (rk===BAR_ROOM) ents.push({t:'bar',x:BAR_POS.x,y:BAR_POS.y});
+  if (rk===COAT_CHECK_ROOM) ents.push({t:'coatcheck',x:COAT_CHECK_POS.x,y:COAT_CHECK_POS.y});
 
-  // Bar counter in Lounge
-  const rk = `${currentRoom.x},${currentRoom.y}`;
-  if (rk === BAR_ROOM) {
-    entities.push({ type: 'bar', x: BAR_POS.x, y: BAR_POS.y });
-  }
+  for (const o of room.obstacles) ents.push({t:'obs',x:o.tx+0.5,y:o.ty+0.5,d:o});
+  for (const door of room.doors) { const dd=DOOR[door]; ents.push({t:'door',x:dd.tx+0.5,y:dd.ty+0.5,d:door}); }
+  for (const npc of room.npcs) ents.push({t:'npc',x:npc.x,y:npc.y,d:npc});
+  for (const c of room.crowds) for (const m of c.members) ents.push({t:'crowd',x:c.x+m.ox,y:c.y+m.oy,d:m});
+  if (room.item&&!room.item.picked) ents.push({t:'item',x:room.item.tx,y:room.item.ty,d:room.item});
+  for (const di of room.droppedItems) if (!di.picked) ents.push({t:'item',x:di.tx,y:di.ty,d:di});
+  for (const tk of room.tokens) if (!tk.picked) ents.push({t:'token',x:tk.tx,y:tk.ty,d:tk});
+  ents.push({t:'player',x:player.x,y:player.y});
 
-  for (const o of room.obstacles)
-    entities.push({ type: 'obstacle', x: o.tx+0.5, y: o.ty+0.5, data: o });
-  for (const door of room.doors) {
-    const dd = DOOR[door];
-    entities.push({ type: 'door', x: dd.tx+0.5, y: dd.ty+0.5, data: door });
-  }
-  for (const npc of room.npcs)
-    entities.push({ type: 'npc', x: npc.x, y: npc.y, data: npc });
-  for (const crowd of room.crowds) {
-    for (const m of crowd.members)
-      entities.push({ type: 'crowd', x: crowd.x + m.ox, y: crowd.y + m.oy, data: m, crowd });
-  }
-  if (room.item && !room.item.picked)
-    entities.push({ type: 'item', x: room.item.tx, y: room.item.ty, data: room.item });
-  for (const di of room.droppedItems)
-    if (!di.picked) entities.push({ type: 'item', x: di.tx, y: di.ty, data: di });
-  entities.push({ type: 'player', x: player.x, y: player.y });
+  ents.sort((a,b)=>(a.x+a.y)-(b.x+b.y));
 
-  entities.sort((a, b) => (a.x + a.y) - (b.x + b.y));
+  for (const e of ents) {
+    const iso=toIso(e.x,e.y);
 
-  for (const ent of entities) {
-    const iso = toIso(ent.x, ent.y);
-
-    if (ent.type === 'wall') {
-      const wallH = 22;
-      ctx.fillStyle = '#2a2a4e';
-      ctx.beginPath();
-      ctx.moveTo(iso.sx, iso.sy - wallH - TILE_H/2);
-      ctx.lineTo(iso.sx + TILE_W/2, iso.sy - wallH);
-      ctx.lineTo(iso.sx + TILE_W/2, iso.sy);
-      ctx.lineTo(iso.sx, iso.sy + TILE_H/2);
-      ctx.lineTo(iso.sx - TILE_W/2, iso.sy);
-      ctx.lineTo(iso.sx - TILE_W/2, iso.sy - wallH);
-      ctx.closePath();
-      ctx.fill();
-      drawIsoDiamond(iso.sx, iso.sy - wallH, TILE_W-2, TILE_H-2, '#3a3a5e', '#4a4a6e');
-      ctx.fillStyle = '#222244';
-      ctx.beginPath();
-      ctx.moveTo(iso.sx, iso.sy - wallH + TILE_H/2 - 1);
-      ctx.lineTo(iso.sx + TILE_W/2 - 1, iso.sy - wallH);
-      ctx.lineTo(iso.sx + TILE_W/2 - 1, iso.sy);
-      ctx.lineTo(iso.sx, iso.sy + TILE_H/2 - 1);
-      ctx.closePath();
-      ctx.fill();
+    if (e.t==='wall') {
+      const wh=22;
+      ctx.fillStyle='#2a2a4e'; ctx.beginPath();
+      ctx.moveTo(iso.sx,iso.sy-wh-TILE_H/2); ctx.lineTo(iso.sx+TILE_W/2,iso.sy-wh);
+      ctx.lineTo(iso.sx+TILE_W/2,iso.sy); ctx.lineTo(iso.sx,iso.sy+TILE_H/2);
+      ctx.lineTo(iso.sx-TILE_W/2,iso.sy); ctx.lineTo(iso.sx-TILE_W/2,iso.sy-wh);
+      ctx.closePath(); ctx.fill();
+      dIso(iso.sx,iso.sy-wh,TILE_W-2,TILE_H-2,'#3a3a5e','#4a4a6e');
+      ctx.fillStyle='#222244'; ctx.beginPath();
+      ctx.moveTo(iso.sx,iso.sy-wh+TILE_H/2-1); ctx.lineTo(iso.sx+TILE_W/2-1,iso.sy-wh);
+      ctx.lineTo(iso.sx+TILE_W/2-1,iso.sy); ctx.lineTo(iso.sx,iso.sy+TILE_H/2-1);
+      ctx.closePath(); ctx.fill();
     }
 
-    if (ent.type === 'obstacle') {
-      const o = ent.data;
-      if (o.type === 'pillar') {
-        ctx.fillStyle = '#3d3d5c';
-        ctx.beginPath();
-        ctx.moveTo(iso.sx-8, iso.sy); ctx.lineTo(iso.sx-8, iso.sy-30);
-        ctx.lineTo(iso.sx+8, iso.sy-30); ctx.lineTo(iso.sx+8, iso.sy);
+    if (e.t==='bar') {
+      const bh=16;
+      for (let seg=-1;seg<=1;seg++) {
+        const sx=iso.sx+seg*(TILE_W*0.45), sy=iso.sy+seg*(TILE_H*0.22);
+        ctx.fillStyle='#2a1a3a'; ctx.beginPath();
+        ctx.moveTo(sx-TILE_W/4,sy-bh); ctx.lineTo(sx+TILE_W/4,sy-bh-TILE_H/4);
+        ctx.lineTo(sx+TILE_W/4,sy-TILE_H/4); ctx.lineTo(sx-TILE_W/4,sy);
         ctx.closePath(); ctx.fill();
-        ctx.fillStyle = '#4d4d6c';
-        ctx.fillRect(iso.sx-10, iso.sy-34, 20, 6);
-      } else if (o.type === 'speaker') {
-        ctx.fillStyle = '#1a1a1a';
-        ctx.fillRect(iso.sx-10, iso.sy-24, 20, 24);
-        ctx.fillStyle = '#333';
-        ctx.beginPath(); ctx.arc(iso.sx, iso.sy-12, 6, 0, Math.PI*2); ctx.fill();
-        const pulse = Math.sin(time*8)*0.3 + 0.5;
-        ctx.strokeStyle = `rgba(160,80,255,${pulse*0.4})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.arc(iso.sx, iso.sy-12, 8+pulse*3, 0, Math.PI*2); ctx.stroke();
+        dIso(sx,sy-bh-TILE_H/8,TILE_W/2-2,TILE_H/2-2,'#3d2a55','#4d3a65');
+      }
+      ctx.fillStyle='#a855f7'; ctx.font='bold 10px Courier New'; ctx.textAlign='center';
+      ctx.fillText('BAR',iso.sx,iso.sy-bh-TILE_H/4-4);
+      if (nearBar&&drawUI) {
+        ctx.strokeStyle=`rgba(168,85,247,${0.3+Math.sin(time*3)*0.15})`; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-bh/2,TILE_W*0.8,TILE_H*0.6,0,0,Math.PI*2); ctx.stroke();
+      }
+    }
+
+    if (e.t==='coatcheck') {
+      const ch=16;
+      for (let seg=-1;seg<=1;seg++) {
+        const sx=iso.sx+seg*(TILE_W*0.45), sy=iso.sy+seg*(TILE_H*0.22);
+        ctx.fillStyle='#3a2a1a'; ctx.beginPath();
+        ctx.moveTo(sx-TILE_W/4,sy-ch); ctx.lineTo(sx+TILE_W/4,sy-ch-TILE_H/4);
+        ctx.lineTo(sx+TILE_W/4,sy-TILE_H/4); ctx.lineTo(sx-TILE_W/4,sy);
+        ctx.closePath(); ctx.fill();
+        dIso(sx,sy-ch-TILE_H/8,TILE_W/2-2,TILE_H/2-2,'#55432a','#6a5535');
+      }
+      ctx.fillStyle='#e8a87c'; ctx.font='bold 10px Courier New'; ctx.textAlign='center';
+      ctx.fillText('COAT CHECK',iso.sx,iso.sy-ch-TILE_H/4-4);
+      if (nearCoatCheck&&drawUI) {
+        ctx.strokeStyle=`rgba(232,168,124,${0.3+Math.sin(time*3)*0.15})`; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-ch/2,TILE_W*0.8,TILE_H*0.6,0,0,Math.PI*2); ctx.stroke();
+      }
+    }
+
+    if (e.t==='token') {
+      const fl=Math.sin(time*3+e.x*2)*2;
+      const pDist=dist(player.x,player.y,e.x,e.y);
+      const near=pDist<2.5;
+      // Glow only when near
+      if (near) {
+        const gl=0.3+Math.sin(time*4+e.y)*0.15;
+        ctx.fillStyle=`rgba(255,217,61,${gl*0.25})`; ctx.beginPath(); ctx.arc(iso.sx,iso.sy,10,0,Math.PI*2); ctx.fill();
+      }
+      // Small coin
+      ctx.fillStyle=near?'#ffd93d':'#8a7a3a'; ctx.beginPath(); ctx.arc(iso.sx,iso.sy-3+fl,3.5,0,Math.PI*2); ctx.fill();
+      if (near) { ctx.fillStyle='#ffec80'; ctx.beginPath(); ctx.arc(iso.sx-1,iso.sy-4+fl,1,0,Math.PI*2); ctx.fill(); }
+      // Number — blurred digit for wildcards
+      ctx.fillStyle=near?'#8B6914':'#5a5020'; ctx.font='bold 5px Courier New'; ctx.textAlign='center';
+      ctx.fillText(e.d.num, iso.sx, iso.sy-1+fl);
+    }
+
+    if (e.t==='obs') {
+      const o=e.d;
+      if (o.type==='pillar') {
+        ctx.fillStyle='#3d3d5c'; ctx.beginPath(); ctx.moveTo(iso.sx-8,iso.sy); ctx.lineTo(iso.sx-8,iso.sy-30); ctx.lineTo(iso.sx+8,iso.sy-30); ctx.lineTo(iso.sx+8,iso.sy); ctx.closePath(); ctx.fill();
+        ctx.fillStyle='#4d4d6c'; ctx.fillRect(iso.sx-10,iso.sy-34,20,6);
+      } else if (o.type==='speaker') {
+        ctx.fillStyle='#1a1a1a'; ctx.fillRect(iso.sx-10,iso.sy-24,20,24);
+        ctx.fillStyle='#333'; ctx.beginPath(); ctx.arc(iso.sx,iso.sy-12,6,0,Math.PI*2); ctx.fill();
+        const p=Math.sin(time*8)*0.3+0.5;
+        ctx.strokeStyle=`rgba(160,80,255,${p*0.4})`; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(iso.sx,iso.sy-12,8+p*3,0,Math.PI*2); ctx.stroke();
       } else {
-        ctx.fillStyle = '#4a3a2a';
-        ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy, 10, 5, 0, 0, Math.PI*2); ctx.fill();
-        ctx.fillStyle = '#5a4a3a'; ctx.fillRect(iso.sx-10, iso.sy-16, 20, 16);
-        ctx.fillStyle = '#6a5a4a';
-        ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy-16, 10, 5, 0, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle='#4a3a2a'; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy,10,5,0,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle='#5a4a3a'; ctx.fillRect(iso.sx-10,iso.sy-16,20,16);
+        ctx.fillStyle='#6a5a4a'; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-16,10,5,0,0,Math.PI*2); ctx.fill();
       }
     }
 
-    if (ent.type === 'door') {
-      drawIsoDiamond(iso.sx, iso.sy, TILE_W*1.5, TILE_H*1.5,
-        `rgba(78,205,196,${0.06 + Math.sin(time*3)*0.03})`);
-      ctx.fillStyle = `rgba(78,205,196,${0.35 + Math.sin(time*4)*0.2})`;
-      ctx.font = '16px monospace'; ctx.textAlign = 'center';
-      ctx.fillText({N:'▲',S:'▼',E:'▶',W:'◀'}[ent.data], iso.sx, iso.sy+5);
+    if (e.t==='door') {
+      dIso(iso.sx,iso.sy,TILE_W*1.5,TILE_H*1.5,`rgba(78,205,196,${0.06+Math.sin(time*3)*0.03})`);
+      ctx.fillStyle=`rgba(78,205,196,${0.35+Math.sin(time*4)*0.2})`; ctx.font='16px monospace'; ctx.textAlign='center';
+      ctx.fillText({N:'▲',S:'▼',E:'▶',W:'◀'}[e.d],iso.sx,iso.sy+5);
     }
 
-    if (ent.type === 'bar') {
-      // Bar counter — long isometric counter
-      const bh = 16;
-      // Counter top
-      for (let seg = -1; seg <= 1; seg++) {
-        const sx = iso.sx + seg * (TILE_W * 0.45);
-        const sy = iso.sy + seg * (TILE_H * 0.22);
-        // Front face
-        ctx.fillStyle = '#2a1a3a';
-        ctx.beginPath();
-        ctx.moveTo(sx - TILE_W/4, sy - bh);
-        ctx.lineTo(sx + TILE_W/4, sy - bh - TILE_H/4);
-        ctx.lineTo(sx + TILE_W/4, sy - TILE_H/4);
-        ctx.lineTo(sx - TILE_W/4, sy);
-        ctx.closePath();
-        ctx.fill();
-        // Top face
-        drawIsoDiamond(sx, sy - bh - TILE_H/8, TILE_W/2 - 2, TILE_H/2 - 2, '#3d2a55', '#4d3a65');
-      }
-      // Sign
-      ctx.fillStyle = '#a855f7';
-      ctx.font = 'bold 10px Courier New';
-      ctx.textAlign = 'center';
-      ctx.fillText('BAR', iso.sx, iso.sy - bh - TILE_H/4 - 4);
-      // Bottles on counter
-      const bottles = ['🍾', '🥃', '🍸'];
-      for (let i = 0; i < 3; i++) {
-        const bsx = iso.sx + (i - 1) * 14;
-        const bsy = iso.sy - bh - TILE_H/4 + 2;
-        ctx.font = '10px serif';
-        ctx.fillText(bottles[i], bsx, bsy);
-      }
-      // Glow when near
-      if (nearBar) {
-        ctx.strokeStyle = `rgba(168,85,247,${0.3 + Math.sin(time*3)*0.15})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.ellipse(iso.sx, iso.sy - bh/2, TILE_W * 0.8, TILE_H * 0.6, 0, 0, Math.PI*2);
-        ctx.stroke();
-      }
-    }
-
-    if (ent.type === 'npc') {
-      const npc = ent.data;
-      const bob = Math.sin(npc.phase) * 2;
-      const h = npc.height;
-
-      if (npc.hidden && !fx.revealNPCs) {
-        ctx.globalAlpha = 0.18 + Math.sin(time*1.5 + npc.phase) * 0.05;
-        ctx.fillStyle = '#0a0a15';
-        ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy+2, 8, 4, 0, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy-8*h+bob*0.3, 6*h, 9*h, 0, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.arc(iso.sx, iso.sy-18*h+bob*0.3, 4*h, 0, Math.PI*2); ctx.fill();
-        ctx.globalAlpha = 1;
+    if (e.t==='npc') {
+      const npc=e.d, bob=Math.sin(npc.phase)*2, h=npc.height;
+      if (npc.hidden&&!fx.revealNPCs) {
+        // Darkened person silhouette
+        const a=0.15+Math.sin(time*1.5+npc.phase)*0.04;
+        ctx.globalAlpha=a;
+        // Shadow on ground
+        ctx.fillStyle='#0a0a15';
+        ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy+2,8,4,0,0,Math.PI*2); ctx.fill();
+        // Body — use actual body shape but dark
+        const bClr=`hsl(${npc.hue},10%,12%)`;
+        ctx.fillStyle=bClr;
+        ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-8*h+bob*0.3,6*h,10*h,0,0,Math.PI*2); ctx.fill();
+        // Head
+        ctx.beginPath(); ctx.arc(iso.sx,iso.sy-20*h+bob*0.3,4.5*h,0,Math.PI*2); ctx.fill();
+        // Faint eyes
+        ctx.fillStyle=`rgba(255,255,255,0.15)`;
+        ctx.beginPath(); ctx.arc(iso.sx-2,iso.sy-21*h+bob*0.3,0.8,0,Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(iso.sx+2,iso.sy-21*h+bob*0.3,0.8,0,Math.PI*2); ctx.fill();
+        ctx.globalAlpha=1;
       } else {
-        const isRevealed = npc.hidden && fx.revealNPCs;
-        drawNPCBody(iso, npc.hue, npc.lightness, h, bob, isRevealed ? 0.55 : 0.85);
-        if (isRevealed) {
-          ctx.strokeStyle = `rgba(168,85,247,${0.25 + Math.sin(time*5 + npc.phase)*0.15})`;
-          ctx.lineWidth = 1.5;
-          ctx.beginPath(); ctx.arc(iso.sx, iso.sy-12*h+bob, 12*h, 0, Math.PI*2); ctx.stroke();
+        const rev=npc.hidden&&fx.revealNPCs;
+        drawBody(iso,npc.hue,npc.lightness,h,bob,rev?0.55:0.85);
+        if (rev) {
+          ctx.strokeStyle=`rgba(168,85,247,${0.25+Math.sin(time*5+npc.phase)*0.15})`; ctx.lineWidth=1.5;
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-12*h+bob,12*h,0,Math.PI*2); ctx.stroke();
         }
-
-        // Speech bubble for talkable NPCs near the player
-        if (npc.talkable && dist(player.x, player.y, npc.x, npc.y) < 2.0) {
-          const canTalk = player.thirst > 0;
-          drawSpeechBubble(iso, h, bob, canTalk);
-
-          // [E] prompt
-          if (canTalk && npc === nearTalkable) {
-            ctx.fillStyle = `rgba(78,205,196,${0.6 + Math.sin(time*4)*0.3})`;
-            ctx.font = 'bold 9px Courier New';
-            ctx.textAlign = 'center';
-            ctx.fillText('[E]', iso.sx + 8, iso.sy - 26*h + bob - 18);
+        // Speech bubbles for talkable NPCs near player
+        if (drawUI && (npc.talkable || fx.charisma) && dist(player.x,player.y,npc.x,npc.y)<2.0) {
+          if (player.thirst <= 0) {
+            drawBubble(iso, h, bob, '...');
+          } else {
+            drawBubble(iso, h, bob, npc.bubbleType);
+            // [E] prompt on nearest
+            if (npc===nearTalkable) {
+              ctx.fillStyle=`rgba(78,205,196,${0.6+Math.sin(time*4)*0.3})`;
+              ctx.font='bold 9px Courier New'; ctx.textAlign='center';
+              ctx.fillText('[E]', iso.sx+10, iso.sy-26*h+bob-22);
+            }
           }
         }
       }
     }
 
-    if (ent.type === 'crowd') {
-      const m = ent.data;
-      // Huddled dancing — jumping up and down together, synced with slight offset
-      const jumpPhase = time * 5 + m.phase;
-      const jump = Math.abs(Math.sin(jumpPhase)) * 4; // always positive = bouncing up
-      const sway = Math.sin(time * 2.5 + m.phase * 1.3) * 1.5;
-      const danceIso = { sx: iso.sx + sway, sy: iso.sy };
-      drawNPCBody(danceIso, m.hue, m.lightness, m.height, jump, 0.8);
+    if (e.t==='crowd') {
+      const m=e.d;
+      // 130 BPM = 2.167 beats/sec, 2*pi*2.167 ≈ 13.6 rad/sec
+      const bpm = 7.45;
+      const jump = Math.abs(Math.sin(time*bpm + m.phase)) * 4;
+      const sway = Math.sin(time*2.5+m.phase*1.3)*1.5;
+      drawBody({sx:iso.sx+sway, sy:iso.sy}, m.hue, m.lightness, m.height, jump, 0.8);
     }
 
-    if (ent.type === 'item') {
-      const item = ent.data;
-      const float = Math.sin(time*2.5) * 4;
-      const glow = 0.3 + Math.sin(time*3) * 0.15;
-      ctx.fillStyle = `rgba(255,217,61,${glow*0.25})`;
-      ctx.beginPath(); ctx.arc(iso.sx, iso.sy, 22, 0, Math.PI*2); ctx.fill();
-      ctx.font = '26px serif'; ctx.textAlign = 'center';
-      ctx.fillText(item.icon, iso.sx, iso.sy - 10 + float);
-      ctx.font = 'bold 10px Courier New';
-      ctx.fillStyle = item.color;
-      ctx.fillText(item.name, iso.sx, iso.sy + 12);
+    if (e.t==='item') {
+      const it=e.d, fl=Math.sin(time*2.5)*4, gl=0.3+Math.sin(time*3)*0.15;
+      ctx.fillStyle=`rgba(255,217,61,${gl*0.25})`; ctx.beginPath(); ctx.arc(iso.sx,iso.sy,22,0,Math.PI*2); ctx.fill();
+      ctx.font='26px serif'; ctx.textAlign='center'; ctx.fillText(it.icon,iso.sx,iso.sy-10+fl);
+      ctx.font='bold 10px Courier New'; ctx.fillStyle=it.color; ctx.fillText(it.name,iso.sx,iso.sy+12);
     }
 
-    if (ent.type === 'player') {
-      const bob = player.moving ? Math.sin(player.bobPhase) * 3 : 0;
-      const exhausted = player.stamina <= 0;
+    if (e.t==='player') {
+      const bob=player.moving?Math.sin(player.bobPhase)*3:0;
+      const exh=player.stamina<=0;
 
-      ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy+2, 12, 6, 0, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(0,0,0,0.4)'; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy+2,12,6,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=exh?'#999':'#e8e8e8'; ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-10+bob,8,12,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=exh?'#bbb':'#fff'; ctx.beginPath(); ctx.arc(iso.sx,iso.sy-24+bob,6,0,Math.PI*2); ctx.fill();
 
-      ctx.fillStyle = exhausted ? '#999' : '#e8e8e8';
-      ctx.beginPath(); ctx.ellipse(iso.sx, iso.sy-10+bob, 8, 12, 0, 0, Math.PI*2); ctx.fill();
-
-      ctx.fillStyle = exhausted ? '#bbb' : '#fff';
-      ctx.beginPath(); ctx.arc(iso.sx, iso.sy-24+bob, 6, 0, Math.PI*2); ctx.fill();
-
-      const ex = player.facing.x * 2, ey = player.facing.y;
-      ctx.fillStyle = '#222';
-      ctx.beginPath();
-      ctx.arc(iso.sx-2+ex, iso.sy-25+bob+ey, 1.5, 0, Math.PI*2);
-      ctx.arc(iso.sx+2+ex, iso.sy-25+bob+ey, 1.5, 0, Math.PI*2);
-      ctx.fill();
+      const ex=player.facing.x*2, ey=player.facing.y;
+      ctx.fillStyle='#222'; ctx.beginPath();
+      ctx.arc(iso.sx-2+ex,iso.sy-25+bob+ey,1.5,0,Math.PI*2);
+      ctx.arc(iso.sx+2+ex,iso.sy-25+bob+ey,1.5,0,Math.PI*2); ctx.fill();
 
       // Thirst 0: X on mouth
-      if (player.thirst <= 0) {
-        ctx.strokeStyle = '#ff6b6b';
-        ctx.lineWidth = 1.5;
-        const mx = iso.sx, my = iso.sy - 21 + bob;
-        ctx.beginPath(); ctx.moveTo(mx-2, my-1.5); ctx.lineTo(mx+2, my+1.5); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(mx+2, my-1.5); ctx.lineTo(mx-2, my+1.5); ctx.stroke();
+      if (player.thirst<=0) {
+        ctx.strokeStyle='#ff6b6b'; ctx.lineWidth=1.5;
+        const mx=iso.sx, my=iso.sy-21+bob;
+        ctx.beginPath(); ctx.moveTo(mx-2,my-1.5); ctx.lineTo(mx+2,my+1.5); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(mx+2,my-1.5); ctx.lineTo(mx-2,my+1.5); ctx.stroke();
       }
 
-      if (player.moving && player.heldItems.includes('tablet')) {
-        ctx.strokeStyle = 'rgba(78,205,196,0.3)'; ctx.lineWidth = 1;
-        for (let i = 0; i < 3; i++) {
-          const ox = -player.facing.x*(10+i*6), oy = -player.facing.y*(5+i*3);
-          ctx.beginPath();
-          ctx.moveTo(iso.sx+ox-4, iso.sy-10+bob+oy+i*4);
-          ctx.lineTo(iso.sx+ox+4, iso.sy-10+bob+oy+i*4);
-          ctx.stroke();
+      // Tablet speed lines (active consumable effect)
+      if (player.moving && activeEffects.some(ae=>ae.effect.motionBlur)) {
+        ctx.strokeStyle='rgba(78,205,196,0.3)'; ctx.lineWidth=1;
+        for (let i=0;i<3;i++) {
+          const ox=-player.facing.x*(10+i*6), oy=-player.facing.y*(5+i*3);
+          ctx.beginPath(); ctx.moveTo(iso.sx+ox-4,iso.sy-10+bob+oy+i*4); ctx.lineTo(iso.sx+ox+4,iso.sy-10+bob+oy+i*4); ctx.stroke();
         }
       }
 
-      if (player.heldItems.includes('drink')) {
-        ctx.strokeStyle = `rgba(168,85,247,${0.12 + Math.sin(time*3)*0.08})`;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.arc(iso.sx, iso.sy-10, 28+Math.sin(time*2)*3, 0, Math.PI*2); ctx.stroke();
+      // Drink aura
+      if (player.slots.some(s=>s&&s.equipped&&s.item.id==='drink')) {
+        ctx.strokeStyle=`rgba(168,85,247,${0.12+Math.sin(time*3)*0.08})`; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.arc(iso.sx,iso.sy-10,28+Math.sin(time*2)*3,0,Math.PI*2); ctx.stroke();
       }
 
-      if (player.heldItems.includes('sunglasses')) {
-        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(iso.sx-6, iso.sy-25+bob); ctx.lineTo(iso.sx+6, iso.sy-25+bob); ctx.stroke();
-        ctx.strokeStyle = 'rgba(251,191,36,0.4)';
-        ctx.beginPath(); ctx.rect(iso.sx-6, iso.sy-27+bob, 5, 4); ctx.rect(iso.sx+1, iso.sy-27+bob, 5, 4); ctx.stroke();
+      // Rave sunglasses — black shiny wraparound
+      if (player.slots.some(s=>s&&s.equipped&&s.item.id==='sunglasses')) {
+        const sy = iso.sy - 25 + bob;
+        // Lens — single wraparound bar, black with shine
+        ctx.fillStyle = '#111';
+        ctx.beginPath();
+        ctx.moveTo(iso.sx - 7, sy - 1);
+        ctx.lineTo(iso.sx + 7, sy - 1);
+        ctx.lineTo(iso.sx + 8, sy + 1.5);
+        ctx.lineTo(iso.sx - 8, sy + 1.5);
+        ctx.closePath();
+        ctx.fill();
+        // Shine highlight
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(iso.sx - 5, sy - 0.5);
+        ctx.lineTo(iso.sx + 5, sy - 0.5);
+        ctx.stroke();
+        // Frame arms
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(iso.sx - 7, sy); ctx.lineTo(iso.sx - 9, sy + 1); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(iso.sx + 7, sy); ctx.lineTo(iso.sx + 9, sy + 1); ctx.stroke();
       }
 
-      if (exhausted) {
-        ctx.fillStyle = `rgba(78,205,196,${0.5 + Math.sin(time*6)*0.3})`;
-        ctx.font = '10px Courier New'; ctx.textAlign = 'center';
-        ctx.fillText('exhausted', iso.sx, iso.sy - 34 + bob);
+      // Equipped clothing on sprite
+      for (const slot of player.slots) {
+        if (!slot || !slot.equipped || slot.isDrink) continue;
+        const id = slot.item.id;
+        if (id==='jacket') {
+          // Jacket — colored overlay on body
+          ctx.fillStyle='rgba(232,168,124,0.45)';
+          ctx.beginPath(); ctx.ellipse(iso.sx,iso.sy-10+bob,9,13,0,0,Math.PI*2); ctx.fill();
+          // Collar
+          ctx.strokeStyle='#e8a87c'; ctx.lineWidth=1.5;
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-18+bob,4,0.3,Math.PI-0.3); ctx.stroke();
+        }
+        if (id==='beret') {
+          // Beret — tilted circle on head
+          ctx.fillStyle='#d4a5a5';
+          ctx.beginPath(); ctx.ellipse(iso.sx+2,iso.sy-29+bob,6,3,0.2,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle='#c49595';
+          ctx.beginPath(); ctx.arc(iso.sx+2,iso.sy-30+bob,1,0,Math.PI*2); ctx.fill();
+        }
+        if (id==='scarf') {
+          // Scarf — draped around neck
+          ctx.strokeStyle='#c4b7a6'; ctx.lineWidth=2.5;
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-18+bob,5,0.5,Math.PI-0.5); ctx.stroke();
+          // Dangling end
+          ctx.fillStyle='#c4b7a6';
+          ctx.fillRect(iso.sx+4,iso.sy-16+bob,2,8);
+        }
+        if (id==='hoodie') {
+          // Hood shape behind head
+          ctx.fillStyle='rgba(122,156,198,0.5)';
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-24+bob,8,Math.PI,0); ctx.fill();
+        }
+        if (id==='cap') {
+          // Baseball cap brim
+          ctx.fillStyle='#6b8e5a';
+          ctx.beginPath();
+          ctx.moveTo(iso.sx-6,iso.sy-28+bob); ctx.lineTo(iso.sx+8,iso.sy-28+bob);
+          ctx.lineTo(iso.sx+9,iso.sy-26+bob); ctx.lineTo(iso.sx-5,iso.sy-26+bob);
+          ctx.closePath(); ctx.fill();
+          // Cap dome
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-28+bob,5,Math.PI,0); ctx.fill();
+        }
+        if (id==='chain') {
+          // Chain necklace
+          ctx.strokeStyle=`rgba(192,192,192,${0.6+Math.sin(time*2)*0.2})`; ctx.lineWidth=1;
+          ctx.beginPath(); ctx.arc(iso.sx,iso.sy-18+bob,4,0.3,Math.PI-0.3); ctx.stroke();
+          ctx.fillStyle='#c0c0c0'; ctx.beginPath(); ctx.arc(iso.sx,iso.sy-14+bob,1.5,0,Math.PI*2); ctx.fill();
+        }
+      }
+
+      if (exh&&drawUI) {
+        ctx.fillStyle=`rgba(78,205,196,${0.5+Math.sin(time*6)*0.3})`;
+        ctx.font='10px Courier New'; ctx.textAlign='center';
+        ctx.fillText('exhausted',iso.sx,iso.sy-34+bob);
       }
     }
-  }
-
-  ctx.restore();
-
-  // Overlays
-  if (transitioning) {
-    ctx.fillStyle = `rgba(0,0,0,${transAlpha})`;
-    ctx.fillRect(0, 0, W, H);
-  }
-
-  if (player.stamina < 25) {
-    const intensity = 1 - (player.stamina / 25);
-    const grad = ctx.createRadialGradient(W/2, H/2, W*0.3, W/2, H/2, W*0.7);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, `rgba(0,0,0,${intensity*0.5})`);
-    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
-  }
-
-  if (getEffects().darken) {
-    const pulse = 0.35 + Math.sin(performance.now()/1500) * 0.05;
-    ctx.fillStyle = `rgba(0,0,0,${pulse})`;
-    ctx.fillRect(0, 0, W, H);
-  }
-
-  if (player.thirst < 20) {
-    const intensity = 1 - (player.thirst / 20);
-    const grad = ctx.createRadialGradient(W/2, H/2, W*0.3, W/2, H/2, W*0.7);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, `rgba(120,20,20,${intensity*0.4})`);
-    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
   }
 }
 
 // ── INIT ──
-generateRoom(0, 0);
+generateRoom(0,0);
 requestAnimationFrame(update);
 </script>
 </body>

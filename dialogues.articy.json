@@ -1,0 +1,315 @@
+{
+  "Project": {
+    "Name": "Eclipse 3000",
+    "DetailName": "Club Dungeon Prototype",
+    "TechnicalName": "Eclipse3000",
+    "Guid": "0x0100000000000001"
+  },
+  "Settings": {
+    "set_Localization": "None",
+    "ExportVersion": "2"
+  },
+  "GlobalVariables": [
+    {
+      "Namespace": "Game",
+      "Description": "Game state variables",
+      "Variables": [
+        { "Variable": "Thirst", "Type": 1, "Value": "80", "Description": "Player thirst level" },
+        { "Variable": "Stamina", "Type": 1, "Value": "100", "Description": "Player stamina level" },
+        { "Variable": "TokensFound", "Type": 1, "Value": "0", "Description": "Number of tokens found" }
+      ]
+    }
+  ],
+  "Packages": [
+    {
+      "Name": "Dialogues",
+      "Description": "All NPC dialogue trees",
+      "IsDefaultPackage": true,
+      "Models": [
+        {
+          "Type": "Dialogue",
+          "Properties": {
+            "Id": "0x0100000000000100",
+            "TechnicalName": "Dlg_Filters",
+            "DisplayName": "Filters",
+            "Text": "A conversation about cigarette filters",
+            "InputPins": [{ "Id": "0x01000000000001A0", "Owner": "0x0100000000000100", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000001A1", "Owner": "0x0100000000000100", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000101", "TargetPin": "0x01000000000002A0" }] }]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000101",
+            "TechnicalName": "Dlg_Filters_root",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010001",
+            "DisplayName": "",
+            "Text": "Do you have filters?",
+            "MenuText": "",
+            "InputPins": [{ "Id": "0x01000000000002A0", "Owner": "0x0100000000000101", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000002A1", "Owner": "0x0100000000000101", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000102", "TargetPin": "0x01000000000003A0" },
+              { "Label": "", "Target": "0x0100000000000103", "TargetPin": "0x01000000000004A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000102",
+            "TechnicalName": "Dlg_Filters_choice1",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "Here. Take them.",
+            "Text": "",
+            "InputPins": [{ "Id": "0x01000000000003A0", "Owner": "0x0100000000000102", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000003A1", "Owner": "0x0100000000000102", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000104", "TargetPin": "0x01000000000005A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000103",
+            "TechnicalName": "Dlg_Filters_choice2",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "Sorry, no.",
+            "Text": "",
+            "InputPins": [{ "Id": "0x01000000000004A0", "Owner": "0x0100000000000103", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000004A1", "Owner": "0x0100000000000103", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000105", "TargetPin": "0x01000000000006A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000104",
+            "TechnicalName": "Dlg_Filters_a1",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010001",
+            "DisplayName": "",
+            "Text": "You're an angel.",
+            "MenuText": "",
+            "InputPins": [{ "Id": "0x01000000000005A0", "Owner": "0x0100000000000104", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000005A1", "Owner": "0x0100000000000104", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000106", "TargetPin": "0x010000000000F1A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000105",
+            "TechnicalName": "Dlg_Filters_a2",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010001",
+            "DisplayName": "",
+            "Text": "'Come on. You have papers. I saw you smoking outside.'",
+            "MenuText": "",
+            "InputPins": [{ "Id": "0x01000000000006A0", "Owner": "0x0100000000000105", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000006A1", "Owner": "0x0100000000000105", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000107", "TargetPin": "0x01000000000007A0" },
+              { "Label": "", "Target": "0x0100000000000108", "TargetPin": "0x01000000000008A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000106",
+            "TechnicalName": "Dlg_Filters_a1_end",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "Thanks for the tip.",
+            "Text": "",
+            "InputPins": [{ "Id": "0x010000000000F1A0", "Owner": "0x0100000000000106", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x010000000000F1A1", "Owner": "0x0100000000000106", "Text": "", "Connections": [] }]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000107",
+            "TechnicalName": "Dlg_Filters_a2_choice1",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "'I don't, sorry.'",
+            "Text": "",
+            "InputPins": [{ "Id": "0x01000000000007A0", "Owner": "0x0100000000000107", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000007A1", "Owner": "0x0100000000000107", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000109", "TargetPin": "0x01000000000009A0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000108",
+            "TechnicalName": "Dlg_Filters_a2_choice2",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "'Were you watching me?'",
+            "Text": "",
+            "InputPins": [{ "Id": "0x01000000000008A0", "Owner": "0x0100000000000108", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000008A1", "Owner": "0x0100000000000108", "Text": "", "Connections": [] }]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x0100000000000109",
+            "TechnicalName": "Dlg_Filters_a3",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010001",
+            "DisplayName": "",
+            "Text": "She smiles, crudely. She doesn't trust you. Thinks you're a shitty guy. Fucking with her, or something, because you want to get closer, because that's what they do, guys, they want you to hate them. 'Are you trying to fuck with me?'",
+            "MenuText": "",
+            "InputPins": [{ "Id": "0x01000000000009A0", "Owner": "0x0100000000000109", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x01000000000009A1", "Owner": "0x0100000000000109", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x010000000000010A", "TargetPin": "0x0100000000000AA0" }
+            ]}]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": {
+            "Id": "0x010000000000010A",
+            "TechnicalName": "Dlg_Filters_a3_end",
+            "Parent": "0x0100000000000100",
+            "Speaker": "0x0100000000010000",
+            "DisplayName": "",
+            "MenuText": "[Leave]",
+            "Text": "",
+            "InputPins": [{ "Id": "0x0100000000000AA0", "Owner": "0x010000000000010A", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x0100000000000AA1", "Owner": "0x010000000000010A", "Text": "", "Connections": [] }]
+          }
+        },
+
+        {
+          "Type": "Dialogue",
+          "Properties": {
+            "Id": "0x0100000000000200",
+            "TechnicalName": "Dlg_Music",
+            "DisplayName": "Music",
+            "Text": "A conversation about the music",
+            "InputPins": [{ "Id": "0x0100000000002000", "Owner": "0x0100000000000200", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x0100000000002001", "Owner": "0x0100000000000200", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000201", "TargetPin": "0x0100000000002100" }] }]
+          }
+        },
+        {
+          "Type": "DialogueFragment",
+          "Properties": { "Id": "0x0100000000000201", "TechnicalName": "Dlg_Music_root", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Isn't this amazing?", "MenuText": "",
+            "InputPins": [{ "Id": "0x0100000000002100", "Owner": "0x0100000000000201", "Text": "", "Connections": [] }],
+            "OutputPins": [{ "Id": "0x0100000000002101", "Owner": "0x0100000000000201", "Text": "", "Connections": [
+              { "Label": "", "Target": "0x0100000000000202", "TargetPin": "0x0100000000002200" },
+              { "Label": "", "Target": "0x0100000000000203", "TargetPin": "0x0100000000002300" }
+            ]}]
+          }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000202", "TechnicalName": "Dlg_Music_c1", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'I love it. I love you.'", "Text": "", "InputPins": [{ "Id": "0x0100000000002200", "Owner": "0x0100000000000202", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002201", "Owner": "0x0100000000000202", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000204", "TargetPin": "0x0100000000002400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000203", "TechnicalName": "Dlg_Music_c2", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'It's normal. I come every week.'", "Text": "", "InputPins": [{ "Id": "0x0100000000002300", "Owner": "0x0100000000000203", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002301", "Owner": "0x0100000000000203", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000205", "TargetPin": "0x0100000000002500" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000204", "TechnicalName": "Dlg_Music_b1", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "She blushes. 'Do you? I love trance. I love it. Angel voice. God whispers in the power. The sting is a signal from heaven.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000002400", "Owner": "0x0100000000000204", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002401", "Owner": "0x0100000000000204", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000206", "TargetPin": "0x0100000000002600" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000205", "TechnicalName": "Dlg_Music_b2", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "'Oh.' Disappointed, maybe? Did you upset her? Listen, you're in the club. Loosen up. Try to make friends. Don't be so lonely.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000002500", "Owner": "0x0100000000000205", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002501", "Owner": "0x0100000000000205", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000207", "TargetPin": "0x0100000000002700" }, { "Label": "", "Target": "0x0100000000000208", "TargetPin": "0x0100000000002800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000206", "TechnicalName": "Dlg_Music_b1_end", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000002600", "Owner": "0x0100000000000206", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002601", "Owner": "0x0100000000000206", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000207", "TechnicalName": "Dlg_Music_b2_c1", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'Are you doing alright?'", "Text": "", "InputPins": [{ "Id": "0x0100000000002700", "Owner": "0x0100000000000207", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002701", "Owner": "0x0100000000000207", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000209", "TargetPin": "0x0100000000002900" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000208", "TechnicalName": "Dlg_Music_b2_c2", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'I feel it. I feel everything. The music is here with me.'", "Text": "", "InputPins": [{ "Id": "0x0100000000002800", "Owner": "0x0100000000000208", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002801", "Owner": "0x0100000000000208", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000209", "TechnicalName": "Dlg_Music_b3", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "She looks dead at you, wondering who you are, and all the stories you will take with you when you disappear, when you never see her again. 'I hid the rest of it behind the speakers. If you want some.' She pulls you in and kisses you. Her lips are bitter.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000002900", "Owner": "0x0100000000000209", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002901", "Owner": "0x0100000000000209", "Text": "", "Connections": [{ "Label": "", "Target": "0x010000000000020A", "TargetPin": "0x0100000000002A00" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x010000000000020A", "TechnicalName": "Dlg_Music_b3_end", "Parent": "0x0100000000000200", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000002A00", "Owner": "0x010000000000020A", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000002A01", "Owner": "0x010000000000020A", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Dialogue",
+          "Properties": { "Id": "0x0100000000000300", "TechnicalName": "Dlg_Czech", "DisplayName": "Czech", "Text": "A Czech conversation", "InputPins": [{ "Id": "0x0100000000003000", "Owner": "0x0100000000000300", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003001", "Owner": "0x0100000000000300", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000301", "TargetPin": "0x0100000000003100" }] }] }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000301", "TechnicalName": "Dlg_Czech_root", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "'Odkud jste?' She smiles at you, her eyes moons blinking in the strobes.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000003100", "Owner": "0x0100000000000301", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003101", "Owner": "0x0100000000000301", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000302", "TargetPin": "0x0100000000003200" }, { "Label": "", "Target": "0x0100000000000303", "TargetPin": "0x0100000000003300" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000302", "TechnicalName": "Dlg_Czech_c1", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "Huh?", "Text": "", "InputPins": [{ "Id": "0x0100000000003200", "Owner": "0x0100000000000302", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003201", "Owner": "0x0100000000000302", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000304", "TargetPin": "0x0100000000003400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000303", "TechnicalName": "Dlg_Czech_c2", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Lean in] 'I can't hear you.'", "Text": "", "InputPins": [{ "Id": "0x0100000000003300", "Owner": "0x0100000000000303", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003301", "Owner": "0x0100000000000303", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000305", "TargetPin": "0x0100000000003500" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000304", "TechnicalName": "Dlg_Czech_c1r", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "She can't stop laughing. 'Chceš jít s námi dnes večer?'", "MenuText": "", "InputPins": [{ "Id": "0x0100000000003400", "Owner": "0x0100000000000304", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003401", "Owner": "0x0100000000000304", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000306", "TargetPin": "0x0100000000003600" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000305", "TechnicalName": "Dlg_Czech_c2r", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Yes.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000003500", "Owner": "0x0100000000000305", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003501", "Owner": "0x0100000000000305", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000307", "TargetPin": "0x0100000000003700" }, { "Label": "", "Target": "0x0100000000000308", "TargetPin": "0x0100000000003800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000306", "TechnicalName": "Dlg_Czech_c1_end", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "...", "Text": "", "InputPins": [{ "Id": "0x0100000000003600", "Owner": "0x0100000000000306", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003601", "Owner": "0x0100000000000306", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000307", "TechnicalName": "Dlg_Czech_c2_no", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "No.", "Text": "", "InputPins": [{ "Id": "0x0100000000003700", "Owner": "0x0100000000000307", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003701", "Owner": "0x0100000000000307", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000309", "TargetPin": "0x0100000000003900" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000308", "TechnicalName": "Dlg_Czech_c2_leave", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000003800", "Owner": "0x0100000000000308", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003801", "Owner": "0x0100000000000308", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000309", "TechnicalName": "Dlg_Czech_c3", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Are there? Have you tried them?", "MenuText": "", "InputPins": [{ "Id": "0x0100000000003900", "Owner": "0x0100000000000309", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003901", "Owner": "0x0100000000000309", "Text": "", "Connections": [{ "Label": "", "Target": "0x010000000000030A", "TargetPin": "0x0100000000003A00" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x010000000000030A", "TechnicalName": "Dlg_Czech_c3_end", "Parent": "0x0100000000000300", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000003A00", "Owner": "0x010000000000030A", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000003A01", "Owner": "0x010000000000030A", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Dialogue",
+          "Properties": { "Id": "0x0100000000000400", "TechnicalName": "Dlg_LostFriend1", "DisplayName": "Lost Friend", "Text": "Looking for a friend", "InputPins": [{ "Id": "0x0100000000004000", "Owner": "0x0100000000000400", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004001", "Owner": "0x0100000000000400", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000401", "TargetPin": "0x0100000000004100" }] }] }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000401", "TechnicalName": "Dlg_LF1_root", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "She is looking around, at the lights, at anyone passing her by. Something about her makes you want to talk to her. 'Have you seen my friend?'", "MenuText": "", "InputPins": [{ "Id": "0x0100000000004100", "Owner": "0x0100000000000401", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004101", "Owner": "0x0100000000000401", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000402", "TargetPin": "0x0100000000004200" }, { "Label": "", "Target": "0x0100000000000403", "TargetPin": "0x0100000000004300" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000402", "TechnicalName": "Dlg_LF1_c1", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'What's her name?'", "Text": "", "InputPins": [{ "Id": "0x0100000000004200", "Owner": "0x0100000000000402", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004201", "Owner": "0x0100000000000402", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000404", "TargetPin": "0x0100000000004400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000403", "TechnicalName": "Dlg_LF1_c2", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "'What does she look like?'", "Text": "", "InputPins": [{ "Id": "0x0100000000004300", "Owner": "0x0100000000000403", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004301", "Owner": "0x0100000000000403", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000405", "TargetPin": "0x0100000000004500" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000404", "TechnicalName": "Dlg_LF1_d1", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "People go in. Different people come out. Same clothes though.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000004400", "Owner": "0x0100000000000404", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004401", "Owner": "0x0100000000000404", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000406", "TargetPin": "0x0100000000004600" }, { "Label": "", "Target": "0x0100000000000407", "TargetPin": "0x0100000000004700" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000405", "TechnicalName": "Dlg_LF1_d2", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Bogna.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000004500", "Owner": "0x0100000000000405", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004501", "Owner": "0x0100000000000405", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000408", "TargetPin": "0x0100000000004800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000406", "TechnicalName": "Dlg_LF1_d1_c1", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "That doesn't make sense.", "Text": "", "InputPins": [{ "Id": "0x0100000000004600", "Owner": "0x0100000000000406", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004601", "Owner": "0x0100000000000406", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000409", "TargetPin": "0x0100000000004900" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000407", "TechnicalName": "Dlg_LF1_d1_leave", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000004700", "Owner": "0x0100000000000407", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004701", "Owner": "0x0100000000000407", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000408", "TechnicalName": "Dlg_LF1_d2_end", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000004800", "Owner": "0x0100000000000408", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004801", "Owner": "0x0100000000000408", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000409", "TechnicalName": "Dlg_LF1_d3", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Nothing here does. Just keep dancing.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000004900", "Owner": "0x0100000000000409", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004901", "Owner": "0x0100000000000409", "Text": "", "Connections": [{ "Label": "", "Target": "0x010000000000040A", "TargetPin": "0x0100000000004A00" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x010000000000040A", "TechnicalName": "Dlg_LF1_d3_end", "Parent": "0x0100000000000400", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000004A00", "Owner": "0x010000000000040A", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000004A01", "Owner": "0x010000000000040A", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Dialogue",
+          "Properties": { "Id": "0x0100000000000500", "TechnicalName": "Dlg_LostFriend2", "DisplayName": "Lost Friend 2", "Text": "Another search for a friend", "InputPins": [{ "Id": "0x0100000000005000", "Owner": "0x0100000000000500", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005001", "Owner": "0x0100000000000500", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000501", "TargetPin": "0x0100000000005100" }] }] }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000501", "TechnicalName": "Dlg_LF2_root", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Have you seen my friend? Tall, wearing all black... like everyone else here.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000005100", "Owner": "0x0100000000000501", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005101", "Owner": "0x0100000000000501", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000502", "TargetPin": "0x0100000000005200" }, { "Label": "", "Target": "0x0100000000000503", "TargetPin": "0x0100000000005300" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000502", "TechnicalName": "Dlg_LF2_c1", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "Could you be more specific?", "Text": "", "InputPins": [{ "Id": "0x0100000000005200", "Owner": "0x0100000000000502", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005201", "Owner": "0x0100000000000502", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000504", "TargetPin": "0x0100000000005400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000503", "TechnicalName": "Dlg_LF2_c2", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "I just got here.", "Text": "", "InputPins": [{ "Id": "0x0100000000005300", "Owner": "0x0100000000000503", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005301", "Owner": "0x0100000000000503", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000505", "TargetPin": "0x0100000000005500" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000504", "TechnicalName": "Dlg_LF2_e1", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "She had this look. Like she knew something the rest of us didn't.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000005400", "Owner": "0x0100000000000504", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005401", "Owner": "0x0100000000000504", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000506", "TargetPin": "0x0100000000005600" }, { "Label": "", "Target": "0x0100000000000507", "TargetPin": "0x0100000000005700" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000505", "TechnicalName": "Dlg_LF2_e2", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Did you though? I feel like I've seen you before.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000005500", "Owner": "0x0100000000000505", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005501", "Owner": "0x0100000000000505", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000508", "TargetPin": "0x0100000000005800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000506", "TechnicalName": "Dlg_LF2_e1_c1", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "Maybe she left.", "Text": "", "InputPins": [{ "Id": "0x0100000000005600", "Owner": "0x0100000000000506", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005601", "Owner": "0x0100000000000506", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000509", "TargetPin": "0x0100000000005900" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000507", "TechnicalName": "Dlg_LF2_e1_c2", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "I'll keep an eye out.", "Text": "", "InputPins": [{ "Id": "0x0100000000005700", "Owner": "0x0100000000000507", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005701", "Owner": "0x0100000000000507", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000508", "TechnicalName": "Dlg_LF2_e2_end", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000005800", "Owner": "0x0100000000000508", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005801", "Owner": "0x0100000000000508", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000509", "TechnicalName": "Dlg_LF2_e3", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Nobody leaves. You know that, right?", "MenuText": "", "InputPins": [{ "Id": "0x0100000000005900", "Owner": "0x0100000000000509", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005901", "Owner": "0x0100000000000509", "Text": "", "Connections": [{ "Label": "", "Target": "0x010000000000050A", "TargetPin": "0x0100000000005A00" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x010000000000050A", "TechnicalName": "Dlg_LF2_e3_end", "Parent": "0x0100000000000500", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "...", "Text": "", "InputPins": [{ "Id": "0x0100000000005A00", "Owner": "0x010000000000050A", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000005A01", "Owner": "0x010000000000050A", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Dialogue",
+          "Properties": { "Id": "0x0100000000000600", "TechnicalName": "Dlg_Lights", "DisplayName": "Lights", "Text": "The lights know things", "InputPins": [{ "Id": "0x0100000000006000", "Owner": "0x0100000000000600", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006001", "Owner": "0x0100000000000600", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000601", "TargetPin": "0x0100000000006100" }] }] }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000601", "TechnicalName": "Dlg_Lights_root", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "The lights... they know things.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000006100", "Owner": "0x0100000000000601", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006101", "Owner": "0x0100000000000601", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000602", "TargetPin": "0x0100000000006200" }, { "Label": "", "Target": "0x0100000000000603", "TargetPin": "0x0100000000006300" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000602", "TechnicalName": "Dlg_Lights_c1", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "You okay?", "Text": "", "InputPins": [{ "Id": "0x0100000000006200", "Owner": "0x0100000000000602", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006201", "Owner": "0x0100000000000602", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000604", "TargetPin": "0x0100000000006400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000603", "TechnicalName": "Dlg_Lights_c2", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "What kind of things?", "Text": "", "InputPins": [{ "Id": "0x0100000000006300", "Owner": "0x0100000000000603", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006301", "Owner": "0x0100000000000603", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000605", "TargetPin": "0x0100000000006500" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000604", "TechnicalName": "Dlg_Lights_f1", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Better than okay. I can see the rhythm. It's a color. It's a shape.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000006400", "Owner": "0x0100000000000604", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006401", "Owner": "0x0100000000000604", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000606", "TargetPin": "0x0100000000006600" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000605", "TechnicalName": "Dlg_Lights_f2", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Where you've been. Where you're going. What you're carrying. They adjust.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000006500", "Owner": "0x0100000000000605", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006501", "Owner": "0x0100000000000605", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000607", "TargetPin": "0x0100000000006700" }, { "Label": "", "Target": "0x0100000000000608", "TargetPin": "0x0100000000006800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000606", "TechnicalName": "Dlg_Lights_f1_end", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "Right. Take care.", "Text": "", "InputPins": [{ "Id": "0x0100000000006600", "Owner": "0x0100000000000606", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006601", "Owner": "0x0100000000000606", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000607", "TechnicalName": "Dlg_Lights_f2_c1", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "You mean the DJ adjusts the lights.", "Text": "", "InputPins": [{ "Id": "0x0100000000006700", "Owner": "0x0100000000000607", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006701", "Owner": "0x0100000000000607", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000609", "TargetPin": "0x0100000000006900" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000608", "TechnicalName": "Dlg_Lights_f2_leave", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000006800", "Owner": "0x0100000000000608", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006801", "Owner": "0x0100000000000608", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000609", "TechnicalName": "Dlg_Lights_f3", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "There is no DJ.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000006900", "Owner": "0x0100000000000609", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006901", "Owner": "0x0100000000000609", "Text": "", "Connections": [{ "Label": "", "Target": "0x010000000000060A", "TargetPin": "0x0100000000006A00" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x010000000000060A", "TechnicalName": "Dlg_Lights_f3_end", "Parent": "0x0100000000000600", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000006A00", "Owner": "0x010000000000060A", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000006A01", "Owner": "0x010000000000060A", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Dialogue",
+          "Properties": { "Id": "0x0100000000000700", "TechnicalName": "Dlg_KeepMoving", "DisplayName": "Keep Moving", "Text": "Warning about stopping", "InputPins": [{ "Id": "0x0100000000007000", "Owner": "0x0100000000000700", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007001", "Owner": "0x0100000000000700", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000701", "TargetPin": "0x0100000000007100" }] }] }
+        },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000701", "TechnicalName": "Dlg_KM_root", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Keep moving. If you stop, you become one of them.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000007100", "Owner": "0x0100000000000701", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007101", "Owner": "0x0100000000000701", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000702", "TargetPin": "0x0100000000007200" }, { "Label": "", "Target": "0x0100000000000703", "TargetPin": "0x0100000000007300" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000702", "TechnicalName": "Dlg_KM_c1", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "One of who?", "Text": "", "InputPins": [{ "Id": "0x0100000000007200", "Owner": "0x0100000000000702", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007201", "Owner": "0x0100000000000702", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000704", "TargetPin": "0x0100000000007400" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000703", "TechnicalName": "Dlg_KM_c2", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "I'll keep that in mind.", "Text": "", "InputPins": [{ "Id": "0x0100000000007300", "Owner": "0x0100000000000703", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007301", "Owner": "0x0100000000000703", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000704", "TechnicalName": "Dlg_KM_g1", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "The shadows. The ones you can almost see. They were people once.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000007400", "Owner": "0x0100000000000704", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007401", "Owner": "0x0100000000000704", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000705", "TargetPin": "0x0100000000007500" }, { "Label": "", "Target": "0x0100000000000706", "TargetPin": "0x0100000000007600" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000705", "TechnicalName": "Dlg_KM_g1_c1", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "How do you know?", "Text": "", "InputPins": [{ "Id": "0x0100000000007500", "Owner": "0x0100000000000705", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007501", "Owner": "0x0100000000000705", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000707", "TargetPin": "0x0100000000007700" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000706", "TechnicalName": "Dlg_KM_g1_leave", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000007600", "Owner": "0x0100000000000706", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007601", "Owner": "0x0100000000000706", "Text": "", "Connections": [] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000707", "TechnicalName": "Dlg_KM_g2", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010001", "DisplayName": "", "Text": "Because I stopped once. Just for a second. I felt myself... fading. Like a signal losing frequency.", "MenuText": "", "InputPins": [{ "Id": "0x0100000000007700", "Owner": "0x0100000000000707", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007701", "Owner": "0x0100000000000707", "Text": "", "Connections": [{ "Label": "", "Target": "0x0100000000000708", "TargetPin": "0x0100000000007800" }] }] } },
+        { "Type": "DialogueFragment", "Properties": { "Id": "0x0100000000000708", "TechnicalName": "Dlg_KM_g2_end", "Parent": "0x0100000000000700", "Speaker": "0x0100000000010000", "DisplayName": "", "MenuText": "[Leave]", "Text": "", "InputPins": [{ "Id": "0x0100000000007800", "Owner": "0x0100000000000708", "Text": "", "Connections": [] }], "OutputPins": [{ "Id": "0x0100000000007801", "Owner": "0x0100000000000708", "Text": "", "Connections": [] }] } },
+
+        {
+          "Type": "Entity",
+          "Properties": { "Id": "0x0100000000010000", "TechnicalName": "Player", "DisplayName": "YOU", "Text": "The player character", "Color": "#4ecdc4", "PreviewImage": { "Asset": null } }
+        },
+        {
+          "Type": "Entity",
+          "Properties": { "Id": "0x0100000000010001", "TechnicalName": "NPC", "DisplayName": "NPC", "Text": "A generic club NPC", "Color": "#ff6b6b", "PreviewImage": { "Asset": null } }
+        }
+      ]
+    }
+  ],
+  "ObjectDefinitions": [],
+  "Hierarchy": { "Id": "0x0100000000000001", "Type": "Project", "Children": [] },
+  "ScriptMethods": []
+}
